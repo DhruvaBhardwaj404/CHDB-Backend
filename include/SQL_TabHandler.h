@@ -10,7 +10,6 @@
 #include<cstdio>
 #include"tableInfo.h"
 #include"functionsDB.h"
-#include"dataTypeHandler.h"
 #define MAX_COL 100
 #define MAX_RPP 100
 #define MAX_SIZE_NAME 20
