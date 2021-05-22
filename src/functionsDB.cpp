@@ -2,7 +2,7 @@
 
 
 using namespace std;
-using namespace functionsDB;
+
 
 string functionsDB::padding_Remover( string data){
     string s;
@@ -167,7 +167,7 @@ vector<vector<pair<string,string> > > functionsDB::parseInsert(const string &com
 
 }
 
-string functionsDB::validate_Types (vps &cols)  {
+string functionsDB::validate_Types (vps &cols,bool mode)  {
     string t1,t2;
     //cout<<"In validate types\n";
     bool flag=0;
@@ -185,20 +185,25 @@ string functionsDB::validate_Types (vps &cols)  {
             }
             else if(i==5){
                 t1=string(x.second.begin(),x.second.begin()+6);
-                t2=string(x.second.begin()+6,x.second.end());
+                t2=mode==false?string(x.second.begin()+6,x.second.end()):"";
                 //cout<<"\n"<<x.first<<" "<<x.second<<endl;
                 //cout<<"\n t1 "<<t1<<" t2 "<<t2<<endl;
 
                 if(strcasecmp(t1.c_str(),type_name[i])==0){
-                    if(t2.size()>0 && t2.size()<=3){
-                        int t3 = stoi(t2);
-                       // cout<<"\n t3"<<t3<<endl;
-                        if(t3>0 && t3<=100){
-                            x.second=to_string(5)+"s"+t2;
-                            //cout<<" x.second "<<x.second[0]<<endl;
-                            flag=1;
-                        }
+                    if(mode == true){
+                        flag=1;
+
                     }
+                    else
+                        if(t2.size()>0 && t2.size()<=3){
+                            int t3 = stoi(t2);
+                            // cout<<"\n t3"<<t3<<endl;
+                            if(t3>0 && t3<=100){
+                                x.second=to_string(5)+"s"+t2;
+                                //cout<<" x.second "<<x.second[0]<<endl;
+                                flag=1;
+                            }
+                        }
                 }
             }
         }
@@ -211,7 +216,7 @@ string functionsDB::validate_Types (vps &cols)  {
     return "OK";
 }
 
-bool functionsDB::type_checker(string value,pair<unsigned int,unsigned int>  type){
+bool functionsDB::type_Checker(string value,pair<unsigned int,unsigned int>  type,bool mode){
 try{
    // cout<<endl<<value<<" "<<type.first<<" "<<type.second<<" in type checker\n";
     if(type.first<=5){
@@ -229,7 +234,7 @@ try{
                         throw "Not a char";
                     }
                     break;
-            case 5: if(value.size()>type.second){
+            case 5: if(value.size()>type.second && mode==false){
                         throw "string is longer than required\n";
                     }
                     break;
@@ -246,6 +251,18 @@ catch(...){
 }
 }
 
+int functionsDB::type_Eval(string value){
+    if(value[0]=='\"' && value[value.size()-1]=='\"'){
+        return 5;
+    }
+    else {
+        return 1;
+    }
+
+    //else if(strcmp(value,"true")==0 || strcmp(value,"false")==0 ){
+   //     return
+    //}
+}
 
 int functionsDB::hashFun(string name){
 

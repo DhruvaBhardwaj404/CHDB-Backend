@@ -9,7 +9,7 @@ using namespace std;
 class tableInfo
 {
     public:
-         string name;
+         //string name;
          unsigned int fsize[5]={4,8,4,8,1};
          unsigned int NRT=0; // number of records read in tableData
          map<string,pair<unsigned int,unsigned int> > columns;

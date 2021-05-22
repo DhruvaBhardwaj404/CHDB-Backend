@@ -67,6 +67,7 @@
 		<Unit filename="include/SQL_TabHandler.h" />
 		<Unit filename="include/functionsDB.h" />
 		<Unit filename="include/tableInfo.h" />
+		<Unit filename="include/tableInfoNSQL.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Col_Handler.cpp" />
 		<Unit filename="src/DB_Exceptions.cpp" />
@@ -77,6 +78,7 @@
 		<Unit filename="src/SQL_TabHandler.cpp" />
 		<Unit filename="src/functionsDB.cpp" />
 		<Unit filename="src/tableInfo.cpp" />
+		<Unit filename="src/tableInfoNSQL.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

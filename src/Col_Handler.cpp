@@ -87,7 +87,9 @@ void Col_Handler::use_Col(){
         else if(pcom[0]=="switch" && pcom[1]=="database"){
             break;
         }
-
+        if(pcom[0]=="create" && mode==1){
+            create_Table({},pcom[1]);
+        }
         else
          cout<<endl<<"[!!!]Command not recognised!\n";
     }
@@ -106,19 +108,20 @@ void Col_Handler::use_Col(){
 void Col_Handler::select_Table(const string &name){
 try{
     if(tab_Name[hashFun(name)]==1){
+        string command="./"+name;
+        chdir(command.c_str());
         if(mode==0){
-            SQL_TabHandler *stab;
-            string command="./"+name;
-            chdir(command.c_str());
             stab= new SQL_TabHandler();
             stab->use_tabHandler();
-            strcpy(sel_Tab,"N-N");
             delete stab;
-            chdir("../");
         }
         else{
-            ;
+            ntab= new NSQL_TabHandler();
+            ntab->use_tabHandler();
+            delete ntab;
         }
+          strcpy(sel_Tab,"N-N");
+          chdir("../");
     }
     else{
         cout<<"[!!!] Table with specified Name doesn't exist!\n";
@@ -132,33 +135,33 @@ catch(...){
 void Col_Handler::create_Table(const string &com,const string &name){
 try{
     if(tab_Name[hashFun(name)]==0){
-        if(mode==0){
-            SQL_TabHandler *tab;
-            string command = "mkdir ./";
-            command+=name;
-            system(command.c_str());
-            command="./"+name;
-            chdir(command.c_str());
-            auto dat=parseData(com);
+        string command = "mkdir ./";
+        command+=name;
+        system(command.c_str());
+        command="./"+name;
+        chdir(command.c_str());
 
-            try{
-                tab= new SQL_TabHandler(dat.second,name);
+        try{
+            if(mode==0){
+                auto dat=parseData(com);
+                stab= new SQL_TabHandler(dat.second,name);
+                delete stab;
             }
-            catch(...){
+            else{
+                ntab= new NSQL_TabHandler(name);
+                delete ntab;
+            }
+        }
+        catch(...){
                 //cout<<"here in destruction!";
                 command="rm -r "+name;
                 chdir("../");
                 system(command.c_str());
                 return;
             }
-            //tab->use_tabHandler();
-            delete tab;
+
             chdir("../");
             tab_Name[hashFun(name)]=1;
-        }
-        else{
-            NSQL_TabHandler *tab;
-        }
     }
     else{
         cout<<"[!!!] Table with the given name already exist!\n";

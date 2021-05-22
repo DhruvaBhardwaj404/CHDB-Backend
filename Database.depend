@@ -59,18 +59,19 @@
 	<vector>
 	<string>
 
-1620467036 /home/Death/Desktop/Database c++/Database/include/functionsDB.h
+1621667776 /home/Death/Desktop/Database c++/Database/include/functionsDB.h
 	<vector>
 	<string>
 	<cstring>
 	<unordered_map>
 	<iostream>
 	<fstream>
+	<fstream>
 	<unistd.h>
 	<syscall.h>
 	<functional>
 
-1620385047 source:/home/Death/Desktop/Database c++/Database/src/functionsDB.cpp
+1621245175 source:/home/Death/Desktop/Database c++/Database/src/functionsDB.cpp
 	"functionsDB.h"
 
 1617878611 /home/Death/Desktop/Database c++/Database/include/SQL.h
@@ -90,10 +91,21 @@
 1617796768 /home/Death/Desktop/Database c++/Database/include/NSQL_ColHandler.h
 	<string>
 
-1617278980 source:/home/Death/Desktop/Database c++/Database/src/NSQL_TabHandler.cpp
+1621668255 source:/home/Death/Desktop/Database c++/Database/src/NSQL_TabHandler.cpp
 	"NSQL_TabHandler.h"
 
-1617466131 /home/Death/Desktop/Database c++/Database/include/NSQL_TabHandler.h
+1621595516 /home/Death/Desktop/Database c++/Database/include/NSQL_TabHandler.h
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	<iomanip>
+	<ctype.h>
+	<algorithm>
+	<map>
+	<cstdio>
+	"tableInfoNSQL.h"
+	"functionsDB.h"
 
 1617796786 /home/Death/Desktop/Database c++/Database/include/SQL_ColHandler.h
 	<string>
@@ -111,10 +123,10 @@
 1617278829 source:/home/Death/Desktop/Database c++/Database/src/SQL_ColHandler.cpp
 	"SQL_ColHandler.h"
 
-1620467806 source:/home/Death/Desktop/Database c++/Database/src/SQL_TabHandler.cpp
+1621671464 source:/home/Death/Desktop/Database c++/Database/src/SQL_TabHandler.cpp
 	"SQL_TabHandler.h"
 
-1620468148 /home/Death/Desktop/Database c++/Database/include/SQL_TabHandler.h
+1621668841 /home/Death/Desktop/Database c++/Database/include/SQL_TabHandler.h
 	<string>
 	<vector>
 	<fstream>
@@ -125,7 +137,6 @@
 	<cstdio>
 	"tableInfo.h"
 	"functionsDB.h"
-	"dataTypeHandler.h"
 
 1620467036 /home/Death/Desktop/Database c++/Database/include/Handler.h
 	<string>
@@ -142,7 +153,7 @@
 1620467036 source:/home/Death/Desktop/Database c++/Database/src/Handler.cpp
 	"Handler.h"
 
-1620466778 source:/home/Death/Desktop/Database c++/Database/src/Col_Handler.cpp
+1621504617 source:/home/Death/Desktop/Database c++/Database/src/Col_Handler.cpp
 	"Col_Handler.h"
 
 1620466811 /home/Death/Desktop/Database c++/Database/include/Col_Handler.h
@@ -166,7 +177,7 @@
 1619351383 source:/home/Death/Desktop/Database c++/Database/src/dataTypeHandler.cpp
 	"dataTypeHandler.h"
 
-1620467714 /home/Death/Desktop/Database c++/Database/include/tableInfo.h
+1620638997 /home/Death/Desktop/Database c++/Database/include/tableInfo.h
 	<string>
 	<map>
 	<vector>
@@ -179,4 +190,13 @@
 	"DB_Exceptions.h"
 
 1620212110 /home/Death/Desktop/Database c++/Database/include/DB_Exceptions.h
+
+1621336246 /home/Death/Desktop/Database c++/Database/include/tableInfoNSQL.h
+	<vector>
+	<string>
+	<fstream>
+	"functionsDB.h"
+
+1621510898 source:/home/Death/Desktop/Database c++/Database/src/tableInfoNSQL.cpp
+	"tableInfoNSQL.h"
 

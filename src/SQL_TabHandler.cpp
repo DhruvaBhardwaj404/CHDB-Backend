@@ -140,15 +140,15 @@ try{
  vector<vector<pair<string,string> > > data=parseInsert(pcom);
  vector<vector<string> > vData=validate_Data(data);
 
-    int file_pos=0,r_cols=vData[0].size(),w_cols=0,s,e,s_cols=0,col_bSize;
+    int file_pos=0,r_cols=vData[0].size(),w_cols=0,s,e,s_cols=0,col_bSize,tempNR=NR;
     string fname;
     fstream file;
 
     while(r_cols>0){
 
-        s=w_cols==0?0:w_cols+1;
+        s=w_cols==0?0:w_cols;
 
-       if(NR%MAX_RPP==0 || NR==0){
+       if(tempNR%MAX_RPP==0 || tempNR==0){
          NP++;
          if(r_cols<=MAX_RPP){
             e=s+r_cols;
@@ -159,17 +159,19 @@ try{
        }
 
        else {
-        if(((NR%MAX_RPP)+r_cols)<=MAX_RPP){
+        if(((tempNR%MAX_RPP)+r_cols)<=MAX_RPP){
             e=s+r_cols;
         }
         else{
-            e=s+(MAX_RPP-(NR%MAX_RPP));
+            e=s+(MAX_RPP-(tempNR%MAX_RPP));
         }
        }
 
 
 
-       // cout<<"\n file_pos= "<<file_pos<<" r_cols="<<r_cols<<"  w_cols="<<w_cols<<" s= "<<s<<"  e= "<<e<<endl;
+        cout<<"\n file_pos= "<<file_pos<<" r_cols="<<r_cols<<"  w_cols="<<w_cols<<" s= "<<s<<"  e= "<<e<<endl;
+        if(file.is_open())
+         file.close();
 
         fname="td-"+to_string(NP)+".dat";
         file.open(fname,ios::in | ios::out);
@@ -186,8 +188,8 @@ try{
             //cout<<"here1";
         }
 
-          if(NR%MAX_RPP!=0)
-            file_pos=s_cols+col_bSize*(NR%MAX_RPP);
+          if(tempNR%MAX_RPP!=0)
+            file_pos=s_cols+col_bSize*(tempNR%MAX_RPP);
           else
             file_pos=0+s_cols;
 
@@ -210,11 +212,12 @@ try{
         }
 
        w_cols=e;
-       r_cols=vData[1].size() - w_cols;
-       NR+=w_cols;
+       r_cols=vData[0].size() - w_cols;
+       tempNR=NR+w_cols;
 
        //cout<<"\n file_pos= "<<file_pos<<" r_cols="<<r_cols<<"  w_cols="<<w_cols<<" s= "<<s<<"  e= "<<e<<endl;
     }
+    NR=tempNR;
     file.close();
 
 }
@@ -348,7 +351,7 @@ vector<vector<string> > SQL_TabHandler::validate_Data(vector<vector<pair<string,
         for(auto field : elm){
             try{
               //cout<<endl<<field.second<<" in validate types "<<Table->columns[field.first]<<endl;
-              tres=type_checker(field.second,Table->columns[field.first]);
+              tres=type_Checker(field.second,Table->columns[field.first]);
 
               if(tres==true){
                 data.at(field.first).push_back(field.second);
