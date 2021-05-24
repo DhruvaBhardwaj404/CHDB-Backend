@@ -1,19 +1,10 @@
 #ifndef DATABASE_H
 #define DATABASE_H
+
 #include"Database.h"
-#include<string>
-#include<map>
-#include<bitset>
-#include<stdlib.h>
-#include<string>
-#include<cstring>
-#include<iostream>
-#include<unistd.h>
-#include<fstream>
 #include"functionsDB.h"
 #include"Handler.h"
-#define MAX_DB_NAME 20
-#define HASH_SIZE 3135
+#include"paramDefinitions.h"
 
 using namespace functionsDB;
 using namespace std;

@@ -1,27 +1,9 @@
 #ifndef NSQL_TABHANDLER_H
 #define NSQL_TABHANDLER_H
-#include<string>
-#include<vector>
-#include<fstream>
-#include<iostream>
-#include<iomanip>
-#include<ctype.h>
-#include<algorithm>
-#include<map>
-#include<cstdio>
+
 #include"tableInfoNSQL.h"
 #include"functionsDB.h"
-#define MAX_ATTR 100
-#define MAX_SBS 1000
-#define MAX_SIZE_NAME 20
-#define MAX_COL_NAME_SIZE 20
-#define SIZE_ATTR_NAME 20
-#define SIZE_ATTR_INFO 1
-#define SIZE_KEY 2
-#define MAX_CHUNCKS 100
-#define SIZE_FCHUNCKS 50
-#define SIZE_SMALL_CHUNKS 25
-#define SIZE_BIG_CHUNKS 100
+#include"paramDefinitions.h"
 #define vps vector<pair<string,string> >
 #define vs vector<string>
 

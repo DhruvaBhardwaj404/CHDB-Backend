@@ -1,17 +1,11 @@
 #ifndef HANDLER_H
 #define HANDLER_H
-#include<string>
-#include<bitset>
-#include<vector>
-#include<unistd.h>
-#include<fstream>
-#include<iostream>
-#include<cstring>
+
 #include "functionsDB.h"
 #include "Col_Handler.h"
 #include "functionsDB.h"
-#define HASH_SIZE 3135
-#define MAX_COL_NAME 20
+#include "paramDefinitions.h"
+
 using namespace std;
 
 class Handler

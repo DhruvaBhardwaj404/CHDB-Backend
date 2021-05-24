@@ -1,18 +1,9 @@
 #ifndef COL_HANDLER_H
 #define COL_HANDLER_H
-#include<string>
-#include<bitset>
-#include<vector>
-#include<iostream>
-#include<fstream>
-#include<cstring>
-#include<unistd.h>
+
 #include"functionsDB.h"
 #include"SQL_TabHandler.h"
 #include"NSQL_TabHandler.h"
-#define MAX_COL_NAME 20
-#define MAX_TAB_NAME 20
-#define HASH_SIZE 3135
 
 using namespace std;
 using namespace functionsDB;

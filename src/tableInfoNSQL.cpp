@@ -97,6 +97,7 @@ void tableInfoNSQL::print_info(NSQL_Cinfo *info){
               <<" |lfile "<<info->lfile_pos<<endl;
 }
 
+
 void tableInfoNSQL::print_attr_list(){
     cout<<"\nAttribute list"<<endl;
     for(auto x:attr_List){
@@ -105,4 +106,76 @@ void tableInfoNSQL::print_attr_list(){
     for(auto x:keys){
         cout<<x<<endl;
     }
+}
+
+
+void tableInfoNSQL::get_data(fstream &fchunk){
+    headChunk head;
+    nextChunk tail;
+    string data,fname,tdata;
+    fstream chunk;
+    int file_pos,chunk_size;
+    while(!fchunk.eof()){
+        fchunk.read((char*)&data,sizeof(SIZE_FCHUNCKS));
+        fchunk.read((char*)&tail,sizeof(tail));
+        while(tail.ctype!=0){
+            if(tail.ctype==1){
+                fname="sc-"+to_string(int(tail.cnum))+".dat";
+                file_pos=(sizeof(head)+SIZE_SMALL_CHUNKS+sizeof(tail))*int(tail.pos);
+            }
+
+            else if(tail.ctype==2){
+                fname="bc-"+to_string(int(tail.cnum))+".dat";
+                file_pos=(sizeof(head)+SIZE_BIG_CHUNKS+sizeof(tail))*int(tail.pos);
+            }
+
+            chunk.open(fname,ios::in|ios::out);
+            chunk.seekg(file_pos);
+            chunk.read((char*)&head,sizeof(head));
+            chunk.read((char*)&tdata,chunk_size);
+            chunk.read((char*)&tail,sizeof(tail));
+            chunk.close();
+            data+=tdata;
+        }
+      format_data(data);
+      data.clear();
+    }
+}
+
+void tableInfoNSQL::format_data(string data){
+    string attr,value;
+    bool flag=0;
+    int index=record_Data.size();
+    record_Data.push_back({});
+
+    for(auto x:data){
+        if(x==':'){
+            flag=1;
+        }
+
+        if(x=='\0'){
+            flag=0;
+            record_Data[index].push_back({attr,data});
+
+            if( Data.find(attr) != Data.end() ){
+                Data.at("attr").push_back(data);
+            }
+            else{
+                Data.insert({attr,{data}});
+            }
+
+            attr.clear();
+            value.clear();
+            continue;
+        }
+
+        else if(flag==0){
+            attr+=x;
+        }
+
+        else{
+            value+=x;
+        }
+    }
+
 }

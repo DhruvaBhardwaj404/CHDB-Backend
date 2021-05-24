@@ -1,13 +1,8 @@
 #ifndef EXISITING_DB_H
 #define EXISITING_DB_H
-#include<vector>
-#include<string>
-#include<bitset>
-#include<algorithm>
-#include<iostream>
-#include<fstream>
+
 #include"functionsDB.h"
-#define HASH_SIZE 3135
+#include"paramDefinitions.h"
 
 using namespace std;
 using namespace functionsDB;

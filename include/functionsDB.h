@@ -1,18 +1,11 @@
 #ifndef FUNCTIONSDB_H
 #define FUNCTIONSDB_H
-#include<vector>
-#include<string>
-#include<cstring>
-#include<unordered_map>
-#include<iostream>
-#include<fstream>
-#include<fstream>
-#include<unistd.h>
-#include<syscall.h>
-#include<functional>
+
+#include<paramDefinitions.h>
+
 #define vs vector<string>
 #define vps vector<pair<string,string> >
-#define TYPE_SIZE 7
+
 
 using namespace std;
 

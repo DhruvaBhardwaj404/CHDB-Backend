@@ -1,19 +1,9 @@
 #ifndef SQL_TABHANDLER_H
 #define SQL_TABHANDLER_H
-#include<string>
-#include<vector>
-#include<fstream>
-#include<iostream>
-#include<iomanip>
-#include<ctype.h>
-#include<map>
-#include<cstdio>
+
 #include"tableInfo.h"
 #include"functionsDB.h"
-#define MAX_COL 100
-#define MAX_RPP 2
-#define MAX_SIZE_NAME 20
-#define MAX_COL_NAME_SIZE 20
+#include"paramDefinitions.h"
 #define vps vector<pair<string,string> >
 #define vs vector<string>
 

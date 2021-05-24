@@ -1,9 +1,8 @@
 #ifndef TABLEINFO_H
 #define TABLEINFO_H
-#include<string>
-#include<map>
-#include<vector>
-#include<iostream>
+
+#include "paramDefinitions.h"
+
 using namespace std;
 
 class tableInfo
