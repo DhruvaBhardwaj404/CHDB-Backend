@@ -17,7 +17,6 @@ NSQL_TabHandler::NSQL_TabHandler()
     Table->make_Attr_List(afile,kfile,NA);
     afile.close();
     kfile.close();
-   // Table->tableData.clear();
 }
 
 
@@ -222,13 +221,6 @@ void NSQL_TabHandler::load_Tab_Data(){
    }
 }
 
-//
-//template<typename T>
-//void NSQL_TabHandler::read_From_File(fstream &f,unsigned int file_pos,unsigned int page,unsigned int col){
-//
-//}
-
-
 
 void NSQL_TabHandler::validate_Data(vector<vector<pair<string,string> > > &d){
 try{
@@ -283,13 +275,15 @@ bool NSQL_TabHandler::write_To_File(const vector<vector<pair<string,string> > > 
 
         temp=fdata;
         temp.resize(SIZE_FCHUNCKS);
-        f.write((char*)&temp,SIZE_FCHUNCKS);
+        //cout<<"data before writing to fchunk "<<temp.c_str()<<endl;
+        f.write((char*)temp.c_str(),SIZE_FCHUNCKS);
 
         if(fdata.size()<SIZE_FCHUNCKS){
             tail.ctype=0;
             tail.cnum=0;
             tail.pos=0;
-            f.write((char*)&tail,sizeof(tail));
+            //cout<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<endl;
+            f.write((char*)&tail,SIZE_TAIL);
         }
 
         else{
@@ -317,15 +311,16 @@ bool NSQL_TabHandler::write_To_File(const vector<vector<pair<string,string> > > 
                 if(flag==0){
                     if(cinfo.mode==1){
                         tail.ctype=1;
-                        tail.cnum=NBC;
-                        tail.pos=int((cinfo.file_pos)/(sizeof(head)+sizeof(tail)+SIZE_SMALL_CHUNKS));
+                        tail.cnum=NSC;
+                        tail.pos=int((cinfo.file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_SMALL_CHUNKS));
+
                     }
                     else{
                         tail.ctype=2;
-                        tail.cnum=NSC;
-                        tail.pos=int((cinfo.file_pos)/(sizeof(head)+sizeof(tail)+SIZE_BIG_CHUNKS));
+                        tail.cnum=NBC;
+                        tail.pos=int((cinfo.file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_BIG_CHUNKS));
                     }
-                    f.write((char*)&tail,sizeof(tail));
+                    f.write((char*)&tail,SIZE_TAIL);
                     flag=1;
                 }
                 cond=fdata.size()-cinfo.start;
@@ -356,19 +351,20 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
         if(info->mode==1){
             int tempNRS=NRS,tempNSC=NSC;
             NSQL_Cinfo temp=*info;
-            get_File_pos(&temp,tempNRS,tempNSC,SIZE_SMALL_CHUNKS+sizeof(head)+sizeof(tail));
+            get_File_pos(&temp,tempNRS,tempNSC,SIZE_SMALL_CHUNKS+SIZE_HEAD+SIZE_TAIL);
             NRS=tempNRS;
             NSC=tempNSC;
+            //cout<<"\nNSC AFTER "<<NSC;
             *info=temp;
         }
 
         else if(info->mode==2){
-            int tempNRB=NRB;
-            int tempNSB=NBC;
+            int tempNRB=NRB,tempNBC=NBC;
             NSQL_Cinfo temp=*info;
-            get_File_pos(&temp,tempNRB,tempNSB,SIZE_BIG_CHUNKS+sizeof(head)+sizeof(tail));
+            get_File_pos(&temp,tempNRB,tempNBC,SIZE_BIG_CHUNKS+SIZE_HEAD+SIZE_TAIL);
             NRB=tempNRB;
-            NBC=tempNSB;
+            NBC=tempNBC;
+            //cout<<"\nNBC AFTER "<<NBC;
             *info=temp;
         }
 
@@ -377,8 +373,8 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 info->sfile->seekp(info->lfile_pos);
                 tail.ctype=1;
                 tail.cnum=NSC;
-                tail.pos=int((info->file_pos)/(sizeof(head)+sizeof(tail)+chunk_size));
-                info->sfile->write((char*)&tail,sizeof(tail));
+                tail.pos=int((info->file_pos)/(SIZE_HEAD+SIZE_TAIL+chunk_size));
+                info->sfile->write((char*)&tail,SIZE_TAIL);
                 info->sfile->close();
                 delete info->sfile;
             }
@@ -386,8 +382,8 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 info->bfile->seekp(info->lfile_pos);
                 tail.ctype=2;
                 tail.cnum=NBC;
-                tail.pos=int((info->file_pos)/(sizeof(head)+sizeof(tail)+SIZE_BIG_CHUNKS));
-                info->bfile->write((char*)&tail,sizeof(tail));
+                tail.pos=int((info->file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_BIG_CHUNKS));
+                info->bfile->write((char*)&tail,SIZE_TAIL);
                 info->bfile->close();
                 delete info->bfile;
             }
@@ -407,7 +403,7 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
 
             head.chunkNum=chunkNum;
             info->sfile->sync();
-            info->sfile->write((char*)&head,sizeof(head));
+            info->sfile->write((char*)&head,SIZE_HEAD);
             info->sfile->write((char*)part.c_str(),chunk_size);
             NRS++;
             info->lmode=1;
@@ -418,7 +414,7 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 tail.ctype=0;
                 tail.cnum=0;
                 tail.pos=0;
-                info->sfile->write((char*)&tail,sizeof(tail));
+                info->sfile->write((char*)&tail,SIZE_TAIL);
                 info->sfile->close();
             }
             else{
@@ -441,7 +437,7 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
            // cout<<"size of part "<<part.size()<<" chunk_size "<<chunk_size<<endl;
             head.chunkNum=chunkNum;
             info->bfile->sync();
-            info->bfile->write((char*)&head,sizeof(head));
+            info->bfile->write((char*)&head,SIZE_HEAD);
             info->bfile->write((char*)part.c_str(),chunk_size);
             NRB++;
             info->lmode=2;
@@ -452,7 +448,7 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 tail.ctype=0;
                 tail.cnum=0;
                 tail.pos=0;
-                info->bfile->write((char*)&tail,sizeof(tail));
+                info->bfile->write((char*)&tail,SIZE_TAIL);
                 info->bfile->close();
             }
 
@@ -508,14 +504,16 @@ string NSQL_TabHandler::write_Type_Con(const vector<pair<string,string> > &value
             key=stoi(x.first);
             type=Table->attr_List[key].second;
             key=Table->keys[key];
-            data+=to_string(key)+":"+con_To_String(value,type)+"\0";
+            data+=to_string(key)+":"+con_To_String(value,type)+";";
+
         }
         else{
             temp=string(attr.begin()+1,attr.end());
             key=Table->new_Keys[stoi(temp)];
             index=Table->new_Keys[key];
             type=Table->new_Attr[index].second;
-            data+=to_string(key)+":"+con_To_String(value,type)+"\0";
+            data+=to_string(key)+":"+con_To_String(value,type)+";";
+
         }
     }
     return data;
@@ -540,16 +538,6 @@ string NSQL_TabHandler::con_To_String(const string &dat,int type){
 }
 
 
-//bool NSQL_TabHandler::write_To_File(vector<string> data,fstream &f,unsigned int file_pos,unsigned int s,unsigned int e,unsigned int size){
-//
-//}
-
-
-//
-//void NSQL_TabHandler::read_From_File(fstream &f,unsigned int file_pos,unsigned int page,unsigned int col,unsigned int size){
-//;
-//}
-
 void NSQL_TabHandler::attr_Updater(vector<pair<pair<string,int>,int> > &attr){
     //cout<<"here in attr_Updater\n";
     sort(attr.begin(),attr.end(),[](pair<pair<string,int>,int> a,pair<pair<string,int>,int>  b)
@@ -567,55 +555,3 @@ void NSQL_TabHandler::attr_Updater(vector<pair<pair<string,int>,int> > &attr){
 }
 
 
-
-
-//                if(temp.begin()+start<temp.end())
-//                    part=string(temp.begin()+start,SIZE_SMALL_CHUNKS);
-//                else{
-//                    part=string(temp.begin()+start,temp.end());
-//                    part.resize(SIZE_SMALL_CHUNKS);
-//                }
-//
-//                s+=SIZE_SMALL_CHUNKS;
-//                get_File_pos(file_pos,s,r,r_chunks,w_chunks,NRS,NSC,SSC);
-//
-//                if(last!=-1){
-//                    if(mode==1){
-//                        sfile.seekp(lfile_pos);
-//                        tail.ctype=1;
-//                        tail.cnum=NSC;
-//                        tail.pos=int((file_pos)/(sizeof(head)+sizeof(tail)+SIZE_SMALL_CHUNKS));
-//                        sfile.write((char*)&tail,sizeof(tail));
-//                    }
-//                    else if(mode==2){
-//                        sfile.seekp(lfile_pos);
-//                        tail.ctype=2;
-//                        tail.cnum=NBC;
-//                        tail.pos=int((file_pos)/(sizeof(head)+sizeof(tail)+SIZE_BIG_CHUNKS));
-//                        bfile.write((char*)&tail,sizeof(tail));
-//                    }
-//                }
-//
-//                fname="sc-"+to_string(NSC)+".dat";
-//                sfile.open(fname,ios::in|ios::out|ios::binary);
-//
-//                if(!sfile.is_open){
-//                    sfile.open(fname,ios::out|ios::binary);
-//                }
-//
-//                sfile.seekp(file_pos);
-//                head.chunkNum=chunkNum;
-//                sfile.write((char*)&head,sizeof(head));
-//                sfile.write((char*)&part,SIZE_SMALL_CHUNKS);
-//                mode=1;
-//                if(start+SIZE_SMALL_CHUNKS>=temp.size()){
-//                    tail.ctype=0;
-//                    tail.cnum=0;
-//                    tail.pos=0;
-//                    sfile.write((char*)&tail,sizeof(tail));
-//                }
-//                else{
-//                    lfile_pos=sfile.tellp();
-//                    last=1
-//                    mode=1;
-//                }

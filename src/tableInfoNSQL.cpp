@@ -30,9 +30,9 @@ int tableInfoNSQL::search_Key(int value){
         return -1;
 
     while(s<=e){
-        cout<<s<<" "<<e<<"\n";
+        //cout<<s<<" "<<e<<"\n";
         mid=(e+s)/2;
-        cout<<keys[mid];
+        //cout<<keys[mid];
         if(keys[mid]==value){
             return mid;
         }
@@ -54,7 +54,7 @@ void tableInfoNSQL::sort_key(int size){
     int div=keys.size()-size,i=0,j=div,temp;
     vector<pair<string,int>> tattr;
     vector<int> tkey;
-    cout<<"\n in sort key | div "<<div<<" i "<<i <<" j "<<j<<endl;
+    //cout<<"\n in sort key | div "<<div<<" i "<<i <<" j "<<j<<endl;
 
 
 
@@ -113,28 +113,37 @@ void tableInfoNSQL::get_data(fstream &fchunk){
     headChunk head;
     nextChunk tail;
     string data,fname,tdata;
+    data.resize(SIZE_FCHUNCKS);
     fstream chunk;
     int file_pos,chunk_size;
+
     while(!fchunk.eof()){
-        fchunk.read((char*)&data,sizeof(SIZE_FCHUNCKS));
-        fchunk.read((char*)&tail,sizeof(tail));
+        //cout<<fchunk.tellg()<<endl;
+        fchunk.read((char*)data.c_str(),SIZE_FCHUNCKS);
+        fchunk.read((char*)&tail,SIZE_TAIL);
+        //cout<<data<<" data "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
         while(tail.ctype!=0){
             if(tail.ctype==1){
-                fname="sc-"+to_string(int(tail.cnum))+".dat";
-                file_pos=(sizeof(head)+SIZE_SMALL_CHUNKS+sizeof(tail))*int(tail.pos);
+                fname="sc-"+to_string(tail.cnum)+".dat";
+                file_pos=(SIZE_HEAD+SIZE_SMALL_CHUNKS+SIZE_TAIL)*int(tail.pos);
+                chunk_size=SIZE_SMALL_CHUNKS;
             }
 
             else if(tail.ctype==2){
-                fname="bc-"+to_string(int(tail.cnum))+".dat";
-                file_pos=(sizeof(head)+SIZE_BIG_CHUNKS+sizeof(tail))*int(tail.pos);
+                fname="bc-"+to_string(tail.cnum)+".dat";
+                file_pos=(SIZE_HEAD+SIZE_BIG_CHUNKS+SIZE_TAIL)*int(tail.pos);
+                chunk_size=(SIZE_BIG_CHUNKS);
             }
 
+            tdata.clear();
+            tdata.resize(chunk_size);
             chunk.open(fname,ios::in|ios::out);
             chunk.seekg(file_pos);
-            chunk.read((char*)&head,sizeof(head));
-            chunk.read((char*)&tdata,chunk_size);
-            chunk.read((char*)&tail,sizeof(tail));
+            chunk.read((char*)&head,SIZE_HEAD);
+            chunk.read((char*)tdata.c_str(),chunk_size);
+            chunk.read((char*)&tail,SIZE_TAIL);
             chunk.close();
+            //cout<<tdata<<" data "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
             data+=tdata;
         }
       format_data(data);
@@ -153,8 +162,9 @@ void tableInfoNSQL::format_data(string data){
             flag=1;
         }
 
-        if(x=='\0'){
+        else if(x==';'){
             flag=0;
+            //cout<<index<<" index "<<attr<<" attr "<<value<<" value \n";
             record_Data[index].push_back({attr,data});
 
             if( Data.find(attr) != Data.end() ){

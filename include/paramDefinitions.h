@@ -25,6 +25,7 @@
 #define HASH_SIZE 3135
 
 //FUNCTIONS DB CLASS
+
 #define TYPE_SIZE 7
 
 //HANDLER CLASS
@@ -51,7 +52,8 @@
 #define SIZE_FCHUNCKS 50
 #define SIZE_SMALL_CHUNKS 25
 #define SIZE_BIG_CHUNKS 100
-
+#define SIZE_HEAD 1
+#define SIZE_TAIL 2
 
 
 

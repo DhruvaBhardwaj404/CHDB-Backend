@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1620212392 source:/home/Death/Desktop/Database c++/Database/main.cpp
+1621935875 source:/home/Death/Desktop/Database c++/Database/main.cpp
 	<iostream>
 	<string>
 	<cstdlib>
@@ -69,7 +69,7 @@
 1617796768 /home/Death/Desktop/Database c++/Database/include/NSQL_ColHandler.h
 	<string>
 
-1621853621 source:/home/Death/Desktop/Database c++/Database/src/NSQL_TabHandler.cpp
+1621941346 source:/home/Death/Desktop/Database c++/Database/src/NSQL_TabHandler.cpp
 	"NSQL_TabHandler.h"
 
 1621854879 /home/Death/Desktop/Database c++/Database/include/NSQL_TabHandler.h
@@ -142,10 +142,10 @@
 	"functionsDB.h"
 	"paramDefinitions.h"
 
-1621853893 source:/home/Death/Desktop/Database c++/Database/src/tableInfoNSQL.cpp
+1621941530 source:/home/Death/Desktop/Database c++/Database/src/tableInfoNSQL.cpp
 	"tableInfoNSQL.h"
 
-1621854825 /home/Death/Desktop/Database c++/Database/include/paramDefinitions.h
+1621941214 /home/Death/Desktop/Database c++/Database/include/paramDefinitions.h
 	<vector>
 	<fstream>
 	<map>

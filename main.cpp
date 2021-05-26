@@ -54,6 +54,7 @@ try{
         continue;
    }
 
+   if(pcom.size()==3){
       if(pcom[0]=="create" && pcom[1]=="database"){
 
           if(DB_info.find(pcom[2])==0){
@@ -68,8 +69,9 @@ try{
                 chdir("../");
             }
         }
-
-      else if(pcom[0]=="use"){
+    }
+    else if(pcom.size()==2){
+      if(pcom[0]=="use"){
           if(DB_info.find(pcom[1])==0){
             string loc="./"+pcom[1];
             chdir(loc.c_str());
@@ -82,7 +84,7 @@ try{
             cout<<"[!!!] No database with specified name exist!";
           }
       }
-
+    }
      else if(pcom[0]!="exit"){
         cout<<endl<<"[!!!]Command not recognised!"<<endl;
      }
