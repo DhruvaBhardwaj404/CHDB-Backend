@@ -52,31 +52,30 @@ vs functionsDB::parse(const string &command){
 vps functionsDB::parse(auto start,auto end){
     vps parsed;
     string command(start,end),col,dat;
-    int size=command.size(),s=1,e=1;
+    int size=command.size();
    // auto it=command.begin();
     string temp;
 
     for(int i=1;i<size;i++){
        if(command[i]!='{' && command[i]!=',' && command[i]!='}' && command[i]!=':'){
-            e++;
+            temp+=command[i];
         }
         else if(command[i]==':'){
+           col=padding_Remover(temp);
+           temp.clear();
 
-           col=padding_Remover(string(command,s,e-s+1));
-           s=i+1;
-           e=i;
 
         }
         else if(command[i]==',' || command[i]=='}'){
 
-            dat = padding_Remover(string(command,s,e-s+1)) ;
+            dat = padding_Remover(temp);
+            temp.clear();
+
             if(col.size()>0 && dat.size()>0){
                 parsed.push_back({col,dat});
                 col.clear();
                 dat.clear();
             }
-            s=i+1;
-            e=i;
 
             if(command[i]=='}'){
                 break;
@@ -168,52 +167,67 @@ vector<vector<pair<string,string> > > functionsDB::parseInsert(const string &com
 }
 
 string functionsDB::validate_Types (vps &cols,bool mode)  {
-    string t1,t2;
-    //cout<<"In validate types\n";
-    bool flag=0;
-    for(auto &x:cols){
+    try{
+        string t1,t2;
+        //cout<<"In validate types\n";
+        bool flag=0;
+        for(auto &x:cols){
 
-        for(unsigned int i=0;i<TYPE_SIZE;i++){
+            for(unsigned int i=0;i<TYPE_SIZE;i++){
 
-            if(i<=4){
-                if(strcasecmp(type_name[i],x.second.c_str())==0){
-                    //cout<<type_name[i]<<" "<<x.second<<" "<<int(char(i))<<"\n";
-                    x.second=to_string(i);
-                    flag=1;
-                    break;
-                }
-            }
-            else if(i==5){
-                t1=string(x.second.begin(),x.second.begin()+6);
-                t2=mode==false?string(x.second.begin()+6,x.second.end()):"";
-                //cout<<"\n"<<x.first<<" "<<x.second<<endl;
-                //cout<<"\n t1 "<<t1<<" t2 "<<t2<<endl;
-
-                if(strcasecmp(t1.c_str(),type_name[i])==0){
-                    if(mode == true){
+                if(i<=4){
+                    if(strcasecmp(type_name[i],x.second.c_str())==0){
+                        //cout<<type_name[i]<<" "<<x.second<<" "<<int(char(i))<<"\n";
+                        x.second=to_string(i);
                         flag=1;
-
+                        break;
                     }
-                    else
-                        if(t2.size()>0 && t2.size()<=3){
-                            int t3 = stoi(t2);
-                            // cout<<"\n t3"<<t3<<endl;
-                            if(t3>0 && t3<=100){
-                                x.second=to_string(5)+"s"+t2;
-                                //cout<<" x.second "<<x.second[0]<<endl;
-                                flag=1;
-                            }
+                }
+                else if(i==5){
+                    t1=string(x.second.begin(),x.second.begin()+6);
+                    t2=mode==false?string(x.second.begin()+6,x.second.end()):"";
+                    //cout<<"\n"<<x.first<<" "<<x.second<<endl;
+                    //cout<<"\n t1 "<<t1<<" t2 "<<t2<<endl;
+
+                    if(strcasecmp(t1.c_str(),type_name[i])==0){
+                        if(mode == true){
+                            flag=1;
+
                         }
+                        else
+                            if(t2.size()>0 && t2.size()<=3){
+                                for(auto x:t2){
+                                    if(isdigit(x)==false){
+                                        throw ;
+                                    }
+                                }
+
+                                int t3 = stoi(t2);
+                                // cout<<"\n t3"<<t3<<endl;
+                                if(t3>0 && t3<=100){
+                                    x.second=to_string(5)+"s"+t2;
+                                    //cout<<" x.second "<<x.second[0]<<endl;
+                                    flag=1;
+                                }
+                            }
+                    }
                 }
             }
+            if(flag==0){
+                return ("[!!!]"+x.first+"=> specified type is not recognised!");
+            }
+        flag=0;
         }
-        if(flag==0){
-            return ("[!!!]"+x.first+"=> specified type is not recognised!");
-        }
-      flag=0;
+        return "OK";
+    }
+    catch(string a){
+        cout<<a;
+    }
+    catch(...){
+        cout<<"[!!!] Error occurred in validate Types\n";
+        throw;
     }
 
-    return "OK";
 }
 
 bool functionsDB::type_Checker(string value,pair<unsigned int,unsigned int>  type,bool mode){

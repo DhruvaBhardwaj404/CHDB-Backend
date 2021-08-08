@@ -36,7 +36,7 @@
 
 //SQL CLASS DEFINTIONS
 #define MAX_COL 100
-#define MAX_RPP 2
+#define MAX_RPP 4
 #define MAX_SIZE_NAME 20
 #define MAX_COL_NAME_SIZE 20
 

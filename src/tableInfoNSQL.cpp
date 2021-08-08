@@ -30,7 +30,7 @@ int tableInfoNSQL::search_Key(int value){
         return -1;
 
     while(s<=e){
-        //cout<<s<<" "<<e<<"\n";
+        cout<<s<<" "<<e<<"\n";
         mid=(e+s)/2;
         //cout<<keys[mid];
         if(keys[mid]==value){

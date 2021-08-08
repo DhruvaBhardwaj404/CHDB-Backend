@@ -195,9 +195,15 @@ void NSQL_TabHandler::find_in_Table(){
 void NSQL_TabHandler::display_Table(){
     start:
         if(Table->Data.size()!=0){
-            ;
+            for(auto x : Table->attr_List){
+                cout<<x.first<<"\n";
+                for(auto y : Table->Data[x.first]){
+                    cout<<y<<" ";
+                }
+            }
         }
         else{
+            cout<<"here\n";
             load_Tab_Data();
             goto start;
         }
@@ -233,13 +239,14 @@ try{
             //cout<<y.first<<" "<<y.second<<endl;
             temp=hashFun(y.first);
             key=Table->search_Key(temp);
-
+            cout<<"key"<<key<<" temp"<<temp;
             if(key==-1){
                 int type=type_Eval(y.second);
                 new_Attr.push_back({{y.first,type},temp});
                 Table->new_Attr.push_back({y.first,type});
                 Table->new_Keys.push_back(temp);
                 y.first="a"+to_string(new_Attr.size()-1);
+                cout<<"y.first"<<y.first<<endl;
                 type_Checker(y.second,{type,0},1);
             }
 
@@ -247,7 +254,7 @@ try{
                 y.first=to_string(key);
                 type_Checker(y.second,{Table->attr_List[key].second,0},1);
             }
-
+            key=-1;
         }
     }
     attr_Updater(new_Attr);
@@ -270,7 +277,7 @@ bool NSQL_TabHandler::write_To_File(const vector<vector<pair<string,string> > > 
 
     while( (info->s)  <  (info->e)  ){
 
-
+        Table->print_info(info);
         fdata=write_Type_Con(data[info->s]);
 
         temp=fdata;
@@ -494,29 +501,35 @@ void NSQL_TabHandler::get_File_pos(NSQL_Cinfo *info,int &numRec,int &numChunks,i
 
 
 string NSQL_TabHandler::write_Type_Con(const vector<pair<string,string> > &values){
-    string data,attr,value,temp;
-    int type,key,index;
+    try{
+        string data,attr,value,temp;
+        int type,key,index;
 
-    for(auto x:values){
-        attr=x.first;
-        value=x.second;
-        if(x.first[0]!='a'){
-            key=stoi(x.first);
-            type=Table->attr_List[key].second;
-            key=Table->keys[key];
-            data+=to_string(key)+":"+con_To_String(value,type)+";";
+        for(auto x:values){
+            attr=x.first;
+            value=x.second;
+            if(x.first[0]!='a'){
+                key=stoi(x.first);
+                type=Table->attr_List[key].second;
+                key=Table->keys[key];
+                data+=to_string(key)+":"+con_To_String(value,type)+";";
 
+                }
+            else{
+                temp=string(attr.begin()+1,attr.end());
+                key=Table->new_Keys[stoi(temp)];
+                index=Table->new_Keys[key];
+                cout<<"key = "<<key<<" index="<<index<<" temp="<<temp<<endl;
+                type=Table->new_Attr[index].second;
+                data+=to_string(key)+":"+con_To_String(value,type)+";";
+                }
         }
-        else{
-            temp=string(attr.begin()+1,attr.end());
-            key=Table->new_Keys[stoi(temp)];
-            index=Table->new_Keys[key];
-            type=Table->new_Attr[index].second;
-            data+=to_string(key)+":"+con_To_String(value,type)+";";
-
-        }
+        return data;
     }
-    return data;
+    catch(...){
+        cout<<"[!!!]Error in write type convertor";
+        throw ;
+    }
 }
 
 
