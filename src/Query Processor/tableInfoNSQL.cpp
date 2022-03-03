@@ -30,7 +30,7 @@ int tableInfoNSQL::search_Key(int value){
         return -1;
 
     while(s<=e){
-        cout<<s<<" "<<e<<"\n";
+        //cout<<s<<" "<<e<<"\n";
         mid=(e+s)/2;
         //cout<<keys[mid];
         if(keys[mid]==value){
@@ -109,45 +109,69 @@ void tableInfoNSQL::print_attr_list(){
 }
 
 
-void tableInfoNSQL::get_data(fstream &fchunk){
+void tableInfoNSQL::get_data(fstream &fchunk,int NR){
+    try{
+    string data,fname,tdata;
     headChunk head;
     nextChunk tail;
-    string data,fname,tdata;
+
     data.resize(SIZE_FCHUNCKS);
     fstream chunk;
     int file_pos,chunk_size;
 
-    while(!fchunk.eof()){
-        //cout<<fchunk.tellg()<<endl;
+    while(NR--){
+        tail.ctype=0;
+        tail.cnum=0;
+        tail.pos=0;
+
         fchunk.read((char*)data.c_str(),SIZE_FCHUNCKS);
+
         fchunk.read((char*)&tail,SIZE_TAIL);
-        //cout<<data<<" data "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
+
+        cout<<"fchunk tellg"<<fchunk.tellg()<<endl;
+        cout<<"tail "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
+
         while(tail.ctype!=0){
+
             if(tail.ctype==1){
                 fname="sc-"+to_string(tail.cnum)+".dat";
-                file_pos=(SIZE_HEAD+SIZE_SMALL_CHUNKS+SIZE_TAIL)*int(tail.pos);
+                file_pos=(SIZE_HEAD+SIZE_SMALL_CHUNKS+SIZE_TAIL)*unsigned(tail.pos);
                 chunk_size=SIZE_SMALL_CHUNKS;
+                cout<<"IN small chunk filepos="<<file_pos<<endl;
             }
 
             else if(tail.ctype==2){
                 fname="bc-"+to_string(tail.cnum)+".dat";
-                file_pos=(SIZE_HEAD+SIZE_BIG_CHUNKS+SIZE_TAIL)*int(tail.pos);
+                file_pos=(SIZE_HEAD+SIZE_BIG_CHUNKS+SIZE_TAIL)*unsigned(tail.pos);
                 chunk_size=(SIZE_BIG_CHUNKS);
+                 cout<<"IN small large filepos="<<file_pos<<endl;
             }
 
-            tdata.clear();
+
             tdata.resize(chunk_size);
-            chunk.open(fname,ios::in|ios::out);
-            chunk.seekg(file_pos);
-            chunk.read((char*)&head,SIZE_HEAD);
-            chunk.read((char*)tdata.c_str(),chunk_size);
-            chunk.read((char*)&tail,SIZE_TAIL);
-            chunk.close();
-            //cout<<tdata<<" data "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
+            chunk.open(fname,ios::in);
+
+            if(chunk.is_open()){
+                chunk.seekg(file_pos);
+                chunk.read((char*)&head,SIZE_HEAD);
+                chunk.read((char*)tdata.c_str(),chunk_size);
+                chunk.read((char*)&tail,SIZE_TAIL);
+                chunk.close();
+            }
+            else{
+                cout<<"[!!!] Could not open file to read!\n";
+                throw;
+            }
+           //cout<<tdata<<" data "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<" \n";
             data+=tdata;
         }
+
       format_data(data);
-      data.clear();
+      data.resize(SIZE_FCHUNCKS);
+    }
+    }
+    catch(...){
+        cout<<"[!!!] Error in get data!\n";
     }
 }
 
@@ -168,12 +192,12 @@ void tableInfoNSQL::format_data(string data){
             record_Data[index].push_back({attr,data});
 
             if( Data.find(attr) != Data.end() ){
-                Data.at("attr").push_back(data);
+                Data.at(attr).push_back(data);
             }
             else{
                 Data.insert({attr,{data}});
             }
-
+            //cout<<"Attr "<<attr<<" = "<<" value "<<value<<"\n";
             attr.clear();
             value.clear();
             continue;

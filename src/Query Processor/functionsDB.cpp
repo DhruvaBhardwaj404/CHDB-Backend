@@ -49,7 +49,7 @@ vs functionsDB::parse(const string &command){
 }
 
 
-vps functionsDB::parse(auto start,auto end){
+vps functionsDB::parse(string::const_iterator start,string::const_iterator end){
     vps parsed;
     string command(start,end),col,dat;
     int size=command.size();
@@ -92,7 +92,7 @@ vps functionsDB::parse(auto start,auto end){
 pair<vs,vps > functionsDB::parseData(const string &command){
 try{
     pair<vs,vps > parsed;
-    auto s=command.begin(),e=command.end();
+    string::const_iterator s=command.begin(),e=command.end();
 
     for(auto x:command){
         if(x=='{'){

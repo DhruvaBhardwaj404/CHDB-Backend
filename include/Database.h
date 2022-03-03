@@ -11,21 +11,21 @@ using namespace std;
 
 class Database
 {
-    public:
+public:
 
-        Database();
-        Database(string n);
-        ~Database();
-        //bool find(string,int);
-        void use_DB();
-        void goto_Handler(const string &mode,string name);
+    Database();
+    Database(string n);
+    ~Database();
+    //bool find(string,int);
+    void use_DB();
+    void goto_Handler(const string &mode,string name);
 
 
-    private:
-        int SQLCollections,NSQLCollections;
-        bitset<HASH_SIZE> SQLColSchema,NSQLColSchema;
-        Handler *col;
-        char name[MAX_DB_NAME];
+private:
+    int SQLCollections,NSQLCollections;
+    bitset<HASH_SIZE> SQLColSchema,NSQLColSchema;
+    Handler *col;
+    char name[MAX_DB_NAME];
 
 };
 

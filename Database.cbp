@@ -58,28 +58,42 @@
 			<Add option="-pthread" />
 			<Add option="-lboost_system" />
 		</Linker>
+		<Unit filename="include/Alive_Handler.h" />
 		<Unit filename="include/Col_Handler.h" />
+		<Unit filename="include/Connection_Handler.h" />
 		<Unit filename="include/DB_Exceptions.h" />
 		<Unit filename="include/Database.h" />
 		<Unit filename="include/Exisiting_DB.h" />
 		<Unit filename="include/Handler.h" />
+		<Unit filename="include/Hybrid_TabHandler.h" />
 		<Unit filename="include/NSQL_TabHandler.h" />
+		<Unit filename="include/Query_Parser.h" />
 		<Unit filename="include/SQL_TabHandler.h" />
+		<Unit filename="include/Test_class.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="include/functionConnector.h" />
 		<Unit filename="include/functionsDB.h" />
 		<Unit filename="include/paramDefinitions.h" />
 		<Unit filename="include/tableInfo.h" />
 		<Unit filename="include/tableInfoNSQL.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Col_Handler.cpp" />
-		<Unit filename="src/DB_Exceptions.cpp" />
-		<Unit filename="src/Database.cpp" />
-		<Unit filename="src/Exisiting_DB.cpp" />
-		<Unit filename="src/Handler.cpp" />
-		<Unit filename="src/NSQL_TabHandler.cpp" />
-		<Unit filename="src/SQL_TabHandler.cpp" />
-		<Unit filename="src/functionsDB.cpp" />
-		<Unit filename="src/tableInfo.cpp" />
-		<Unit filename="src/tableInfoNSQL.cpp" />
+		<Unit filename="src/Alive Handler/Alive_Handler.cpp" />
+		<Unit filename="src/Connection Handler/Connection_Handler.cpp" />
+		<Unit filename="src/Connection Handler/functionConnector.cpp" />
+		<Unit filename="src/Query Processor/Col_Handler.cpp" />
+		<Unit filename="src/Query Processor/DB_Exceptions.cpp" />
+		<Unit filename="src/Query Processor/Database.cpp" />
+		<Unit filename="src/Query Processor/Exisiting_DB.cpp" />
+		<Unit filename="src/Query Processor/Handler.cpp" />
+		<Unit filename="src/Query Processor/Hybrid_TabHandler.cpp" />
+		<Unit filename="src/Query Processor/NSQL_TabHandler.cpp" />
+		<Unit filename="src/Query Processor/Query_Parser.cpp" />
+		<Unit filename="src/Query Processor/SQL_TabHandler.cpp" />
+		<Unit filename="src/Query Processor/functionsDB.cpp" />
+		<Unit filename="src/Query Processor/tableInfo.cpp" />
+		<Unit filename="src/Query Processor/tableInfoNSQL.cpp" />
+		<Unit filename="src/Testing/Test_class.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

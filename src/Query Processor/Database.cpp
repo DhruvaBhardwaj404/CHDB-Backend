@@ -111,7 +111,8 @@ try{
     else
         col= new Handler(name,1);
 
-    col->use_Handler();
+    //col->use_Handler();
+     //TODO change handler method
     delete col;
     chdir("../");
 }

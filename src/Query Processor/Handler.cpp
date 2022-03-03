@@ -1,20 +1,25 @@
 #include "Handler.h"
 
-Handler::Handler(string name,unsigned int m)
+Handler::Handler(const string &name,unsigned int m)
 {
     try{
         mode=m;
-        if(m==0)
-            chdir("./sql");
-        else if(m==1)
-            chdir("./nsql");
+        switch(m){
+
+        case 0:chdir("./sql");break;
+        case 1:chdir("./nsql");break;
+        case 2:chdir("./hybrid");break;
+        default:throw; //Todo add exception
+        }
 
         fstream file("handler_info.dat",ios::in|ios::binary);
+
         if(file.is_open()){
             file.read((char*)this,sizeof(Handler));
             file.close();
         }
-        name.resize(MAX_COL_NAME);
+
+        //name.resize(MAX_COL_NAME);
 
         if(strcmp(name.c_str(),"N-N")!=0){
 
@@ -33,6 +38,41 @@ Handler::Handler(string name,unsigned int m)
 
 }
 
+Handler::Handler(const string &name,const string& table, unsigned m){
+    try{
+        mode=m;
+        switch(m){
+
+            case 0:chdir("./sql");break;
+            case 1:chdir("./nsql");break;
+            case 2:chdir("./hybrid");break;
+            default:throw; //Todo add exception
+        }
+
+        fstream file("handler_info.dat",ios::in|ios::binary);
+        if(file.is_open()){
+            file.read((char*)this,sizeof(Handler));
+            file.close();
+        }
+        //name.resize(MAX_COL_NAME);
+
+        if(strcmp(name.c_str(),"N-N")!=0){
+
+            if(col_Name[hashFun(name)]==1){
+               strcpy(sel_Col_Name,name.c_str());
+            }
+            else{
+                cout<<"[!!!] No collection with specified name exist!\n";
+            }
+        }
+    }
+    catch(...){
+        cout<<"[!!!] Error while creating sql object!";
+        throw "";
+    }
+}
+
+
 Handler::~Handler()
 {
 try{
@@ -49,30 +89,31 @@ catch(...){
 }
 
 
-void Handler::use_Handler(){
-
- string command;
- string m=(mode==0?"sql":"nsql");
-
- while(true){
+void Handler::use_Handler(const vector<string> &command){
+  try{
+    string m=(mode==0?"sql":"nsql");
     vector<string> pcom;
-    cout<<"Selected mode=>"<<m<<" : ";
+    //cout<<"Selected mode=>"<<m<<" : ";
+    // TODO : Add interface commands for query parser
 
+
+    /*
     if(strcmp(sel_Col_Name,"N-N")!=0){
         goto_Col("N-N");
     }
 
-    getline(cin,command);
+
+
 
     try{
         pcom=parse(command);
     }
     catch(...){
-        cout<<"[!!!]Error while parsing!\n";
+        throw;//cout<<"[!!!]Error while parsing!\n";
     }
 
     if(pcom.size()<1){
-        cout<<"[!!!] Insufficient number of arguments!\n";
+        throw;//cout<<"[!!!] Insufficient number of arguments!\n";
     }
 
     if(pcom.size()==1){
@@ -81,7 +122,7 @@ void Handler::use_Handler(){
             display_Collection();
         }
         else
-            cout<<"[!!!] Too few arguments specified!\n";
+            throw; //cout<<"[!!!] Too few arguments specified!\n";
     }
 
     if(pcom.size()>=2){
@@ -94,18 +135,19 @@ void Handler::use_Handler(){
             create_Collection(pcom);
         }
 
-
         else if(pcom[0]=="delete"){
             delete_Collection(pcom);
         }
 
-        else if(pcom[0]=="switch" && pcom[1]=="database")
-           break;
-
         else
-         cout<<endl<<"[!!!]Command not recognised!\n";
+         throw; //TODO add handler exception
     }
+
+    */
   }
+  catch(...){
+    cout<<"[!!!] Error in use handler\n";
+   }
 }
 
 
@@ -117,14 +159,14 @@ try{
             strcpy(sel_Col_Name,pcom[1].c_str());
             goto_Col(pcom[2]);
         }
+
         else if(pcom.size()==2){
             strcpy(sel_Col_Name,pcom[1].c_str());
             goto_Col("N-N");
-
         }
     }
     else{
-        cout<<"[!!!]No collection with the specified name exist!\n";
+        throw;//cout<<"[!!!]No collection with the specified name exist!\n";
     }
 }catch(...){
     cout<<"[!!!] Error in select_Collections!\n";
@@ -185,10 +227,10 @@ try{
         else
             col=new Col_Handler(tab);
 
-        col->use_Col();
-        delete col;
-        strcpy(sel_Col_Name,"N-N\0");
-        chdir("../");
+        //return col;
+        //TODO: Change method return to Collection type
+        //strcpy(sel_Col_Name,"N-N\0");
+        //chdir("../");
 
     }
 

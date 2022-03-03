@@ -163,7 +163,7 @@
 	<cstdio>
 	<string>
 
-1628428628 source:/home/Death/Desktop/C++ developement/Database Backend/Database/main.cpp
+1646281491 source:/home/Death/Desktop/C++ developement/Database Backend/Database/main.cpp
 	<iostream>
 	<string>
 	<cstdlib>
@@ -173,12 +173,13 @@
 	"functionsDB.h"
 	"Exisiting_DB.h"
 	"Database.h"
+	"Connection_Handler.h"
 	<syscall.h>
 
-1628428628 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionsDB.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionsDB.h
 	<paramDefinitions.h>
 
-1628341169 /home/Death/Desktop/C++ developement/Database Backend/Database/include/paramDefinitions.h
+1635347396 /home/Death/Desktop/C++ developement/Database Backend/Database/include/paramDefinitions.h
 	<vector>
 	<fstream>
 	<map>
@@ -195,42 +196,43 @@
 	<ctype.h>
 	<cstdio>
 	<string>
+	<thread>
 
-1621854597 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Exisiting_DB.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Exisiting_DB.h
 	"functionsDB.h"
 	"paramDefinitions.h"
 
-1621854878 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Database.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Database.h
 	"Database.h"
 	"functionsDB.h"
 	"Handler.h"
 	"paramDefinitions.h"
 
-1621854681 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Handler.h
+1646281789 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Handler.h
 	"functionsDB.h"
 	"Col_Handler.h"
 	"functionsDB.h"
 	"paramDefinitions.h"
 
-1621854878 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Col_Handler.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Col_Handler.h
 	"functionsDB.h"
 	"SQL_TabHandler.h"
 	"NSQL_TabHandler.h"
 
-1621854751 /home/Death/Desktop/C++ developement/Database Backend/Database/include/SQL_TabHandler.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/SQL_TabHandler.h
 	"tableInfo.h"
 	"functionsDB.h"
 	"paramDefinitions.h"
 
-1621854738 /home/Death/Desktop/C++ developement/Database Backend/Database/include/tableInfo.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/tableInfo.h
 	"paramDefinitions.h"
 
-1621854879 /home/Death/Desktop/C++ developement/Database Backend/Database/include/NSQL_TabHandler.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/NSQL_TabHandler.h
 	"tableInfoNSQL.h"
 	"functionsDB.h"
 	"paramDefinitions.h"
 
-1621854751 /home/Death/Desktop/C++ developement/Database Backend/Database/include/tableInfoNSQL.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/tableInfoNSQL.h
 	"functionsDB.h"
 	"paramDefinitions.h"
 
@@ -248,21 +250,110 @@
 1619351876 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Exisiting_DB.cpp
 	"Exisiting_DB.h"
 
-1628428628 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/functionsDB.cpp
+1637932344 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/functionsDB.cpp
 	"functionsDB.h"
 
 1620467036 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Handler.cpp
 	"Handler.h"
 
-1628427027 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/NSQL_TabHandler.cpp
+1628599214 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/NSQL_TabHandler.cpp
 	"NSQL_TabHandler.h"
 
-1628423126 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/SQL_TabHandler.cpp
+1628428823 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/SQL_TabHandler.cpp
 	"SQL_TabHandler.h"
 
 1620299632 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/tableInfo.cpp
 	"tableInfo.h"
 
-1628425440 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/tableInfoNSQL.cpp
+1628600239 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/tableInfoNSQL.cpp
 	"tableInfoNSQL.h"
+
+1637933364 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/functionConnector.cpp
+	"functionConnector.h"
+
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionConnector.h
+	"paramDefinitions.h"
+	<asio.hpp>
+	<string>
+	<chrono>
+	<random>
+	"Handler.h"
+
+1628683113 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query_Parser.cpp
+	"Query_Parser.h"
+
+1646281593 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Query_Parser.h
+	<unordered_map>
+	"Database.h"
+	"functionConnector.h"
+	"mutex"
+	<ctime>
+	<tuple>
+	"Exisiting_DB.h"
+
+1644318309 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Alive_Handler.cpp
+	"Alive_Handler.h"
+
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Alive_Handler.h
+	"paramDefinitions.h"
+	<queue>
+	"paramDefinitions.h"
+
+1631344852 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Test_class.cpp
+	"Test_class.h"
+
+1631344852 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Test_class.h
+
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Connection_Handler.h
+	<asio.hpp>
+	<asio/ip/tcp.hpp>
+	<future>
+	<thread>
+	<memory>
+	<atomic>
+	<list>
+	<mutex>
+	"Alive_Handler.h"
+	"Query_Parser.h"
+	"functionsDB.h"
+	"paramDefinitions.h"
+	"functionConnector.h"
+
+1637931738 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection_Handler.cpp
+	"Connection_Handler.h"
+
+1644319660 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Alive Handler/Alive_Handler.cpp
+	"Alive_Handler.h"
+
+1646281636 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection Handler/Connection_Handler.cpp
+	"Connection_Handler.h"
+
+1637933364 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection Handler/functionConnector.cpp
+	"functionConnector.h"
+
+1621504617 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Col_Handler.cpp
+	"Col_Handler.h"
+
+1646281846 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Database.cpp
+	"Database.h"
+
+1620295405 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/DB_Exceptions.cpp
+	"DB_Exceptions.h"
+
+1619351876 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Exisiting_DB.cpp
+	"Exisiting_DB.h"
+
+1637932344 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/functionsDB.cpp
+	"functionsDB.h"
+
+1646281882 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Handler.cpp
+	"Handler.h"
+
+1645118522 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Hybrid_TabHandler.cpp
+	"Hybrid_TabHandler.h"
+
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Hybrid_TabHandler.h
+
+1628599214 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/NSQL_TabHandler.cpp
+	"NSQL_TabHandler.h"
 

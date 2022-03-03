@@ -194,16 +194,18 @@ void NSQL_TabHandler::find_in_Table(){
 
 void NSQL_TabHandler::display_Table(){
     start:
-        if(Table->Data.size()!=0){
-            for(auto x : Table->attr_List){
-                cout<<x.first<<"\n";
-                for(auto y : Table->Data[x.first]){
-                    cout<<y<<" ";
+        if(Table->record_Data.size()!=0){
+
+            for(auto x : Table->record_Data){
+                cout<<"Records=>\n";
+                for(auto y:x){
+                    cout<<y.first<<" => "<<y.second<<"\n";
                 }
+
             }
         }
         else{
-            cout<<"here\n";
+
             load_Tab_Data();
             goto start;
         }
@@ -221,8 +223,14 @@ void NSQL_TabHandler::load_Tab_Data(){
         for(unsigned int i=1;i<=NFC;i++){
             fname= "fc-"+to_string(i)+".dat";
             fchunk.open(fname,ios::in|ios::out);
-            Table->get_data(fchunk);
-            fchunk.close();
+            if(fchunk.is_open()){
+                Table->get_data(fchunk,NR);
+                fchunk.close();
+            }
+            else{
+                cout<<"[!!!] file could not be opened to get data!\n";
+                break;
+            }
         }
    }
 }
@@ -239,14 +247,14 @@ try{
             //cout<<y.first<<" "<<y.second<<endl;
             temp=hashFun(y.first);
             key=Table->search_Key(temp);
-            cout<<"key"<<key<<" temp"<<temp;
+            //cout<<"key"<<key<<" temp"<<temp;
             if(key==-1){
                 int type=type_Eval(y.second);
                 new_Attr.push_back({{y.first,type},temp});
                 Table->new_Attr.push_back({y.first,type});
                 Table->new_Keys.push_back(temp);
                 y.first="a"+to_string(new_Attr.size()-1);
-                cout<<"y.first"<<y.first<<endl;
+               // cout<<"y.first"<<y.first<<endl;
                 type_Checker(y.second,{type,0},1);
             }
 
@@ -277,7 +285,7 @@ bool NSQL_TabHandler::write_To_File(const vector<vector<pair<string,string> > > 
 
     while( (info->s)  <  (info->e)  ){
 
-        Table->print_info(info);
+        //Table->print_info(info);
         fdata=write_Type_Con(data[info->s]);
 
         temp=fdata;
@@ -318,15 +326,16 @@ bool NSQL_TabHandler::write_To_File(const vector<vector<pair<string,string> > > 
                 if(flag==0){
                     if(cinfo.mode==1){
                         tail.ctype=1;
-                        tail.cnum=NSC;
+                        tail.cnum=unsigned(NSC);
                         tail.pos=int((cinfo.file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_SMALL_CHUNKS));
 
                     }
                     else{
                         tail.ctype=2;
-                        tail.cnum=NBC;
+                        tail.cnum=unsigned(NBC);
                         tail.pos=int((cinfo.file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_BIG_CHUNKS));
                     }
+                    //cout<<"in fchunk "<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<endl;
                     f.write((char*)&tail,SIZE_TAIL);
                     flag=1;
                 }
@@ -381,6 +390,8 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 tail.ctype=1;
                 tail.cnum=NSC;
                 tail.pos=int((info->file_pos)/(SIZE_HEAD+SIZE_TAIL+chunk_size));
+                //cout<<"last mode 1 | ";
+               // cout<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<endl;
                 info->sfile->write((char*)&tail,SIZE_TAIL);
                 info->sfile->close();
                 delete info->sfile;
@@ -390,6 +401,8 @@ void NSQL_TabHandler::write_To_Chunks(string &temp, NSQL_Cinfo *info,int chunk_s
                 tail.ctype=2;
                 tail.cnum=NBC;
                 tail.pos=int((info->file_pos)/(SIZE_HEAD+SIZE_TAIL+SIZE_BIG_CHUNKS));
+                //cout<<"last mode 2 | ";
+               // cout<<tail.ctype<<" "<<tail.cnum<<" "<<tail.pos<<endl;
                 info->bfile->write((char*)&tail,SIZE_TAIL);
                 info->bfile->close();
                 delete info->bfile;
@@ -496,7 +509,7 @@ void NSQL_TabHandler::get_File_pos(NSQL_Cinfo *info,int &numRec,int &numChunks,i
         else
             info->file_pos=0;
 
-    Table->print_info(info);
+    //Table->print_info(info);
 }
 
 
@@ -519,7 +532,7 @@ string NSQL_TabHandler::write_Type_Con(const vector<pair<string,string> > &value
                 temp=string(attr.begin()+1,attr.end());
                 key=Table->new_Keys[stoi(temp)];
                 index=Table->new_Keys[key];
-                cout<<"key = "<<key<<" index="<<index<<" temp="<<temp<<endl;
+               // cout<<"key = "<<key<<" index="<<index<<" temp="<<temp<<endl;
                 type=Table->new_Attr[index].second;
                 data+=to_string(key)+":"+con_To_String(value,type)+";";
                 }

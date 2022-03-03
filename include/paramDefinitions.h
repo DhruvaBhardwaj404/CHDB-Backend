@@ -18,7 +18,7 @@
 #include<ctype.h>
 #include<cstdio>
 #include<string>
-
+#include<thread>
 
 //DATABASE CLASS DEFINITIONS
 #define MAX_DB_NAME 20
@@ -53,7 +53,7 @@
 #define SIZE_SMALL_CHUNKS 25
 #define SIZE_BIG_CHUNKS 100
 #define SIZE_HEAD 1
-#define SIZE_TAIL 2
+#define SIZE_TAIL 3
 
 
 
