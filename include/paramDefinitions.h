@@ -1,7 +1,7 @@
 #ifndef PARAMDEFINITIONS_H
 #define PARAMDEFINITIONS_H
 
-//libraries
+//Standard libraries
 #include<vector>
 #include<fstream>
 #include<map>
@@ -19,6 +19,38 @@
 #include<cstdio>
 #include<string>
 #include<thread>
+#include<memory>
+#include<queue>
+#include<future>
+#include<atomic>
+#include<list>
+#include<mutex>
+#include<ctime>
+#include<tuple>
+#include<unordered_map>
+
+//Boost libraries
+#include<asio.hpp>
+#include<asio/ip/tcp.hpp>
+#include<boost/interprocess/shared_memory_object.hpp>
+#include<boost/interprocess/mapped_region.hpp>
+
+//MAIN
+#define DEBUG_MAIN true
+#define BIP boost::interprocess
+
+//Connection Handler
+#define DEBUG_CONN true
+#define MAX_THREADS 5
+#define MAX_PAC_SIZE 256
+#define MAX_WAIT 10
+
+//Alive Handler
+#define MAX_THREADS 5
+#define DEBUG_ALIVE true
+
+//Query Parser
+#define DEBUG_QUE true
 
 //DATABASE CLASS DEFINITIONS
 #define MAX_DB_NAME 20
@@ -55,6 +87,11 @@
 #define SIZE_HEAD 1
 #define SIZE_TAIL 3
 
+//shared memory
+#define SHARED_MEM_SIZE_A2Q 2048
+#define SHARED_MEM_SIZE_C2A 2048
 
+#define SHARED_MEM_ALIQUE "AliQue"
+#define SHARED_MEM_CONALI "ConAli"
 
 #endif // PARAMDEFINITIONS_H

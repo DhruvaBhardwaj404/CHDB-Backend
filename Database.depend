@@ -163,7 +163,7 @@
 	<cstdio>
 	<string>
 
-1646281491 source:/home/Death/Desktop/C++ developement/Database Backend/Database/main.cpp
+1651054696 source:/home/Death/Desktop/C++ developement/Database Backend/Database/main.cpp
 	<iostream>
 	<string>
 	<cstdlib>
@@ -175,11 +175,17 @@
 	"Database.h"
 	"Connection_Handler.h"
 	<syscall.h>
+	<unistd.h>
+	<sys/types.h>
+	"Alive_Handler.h"
+	"Query_Parser.h"
+	<boost/interprocess/shared_memory_object.hpp>
+	<boost/interprocess/mapped_region.hpp>
 
 1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionsDB.h
 	<paramDefinitions.h>
 
-1635347396 /home/Death/Desktop/C++ developement/Database Backend/Database/include/paramDefinitions.h
+1651054927 /home/Death/Desktop/C++ developement/Database Backend/Database/include/paramDefinitions.h
 	<vector>
 	<fstream>
 	<map>
@@ -197,6 +203,19 @@
 	<cstdio>
 	<string>
 	<thread>
+	<memory>
+	<queue>
+	<future>
+	<atomic>
+	<list>
+	<mutex>
+	<ctime>
+	<tuple>
+	<unordered_map>
+	<asio.hpp>
+	<asio/ip/tcp.hpp>
+	<boost/interprocess/shared_memory_object.hpp>
+	<boost/interprocess/mapped_region.hpp>
 
 1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Exisiting_DB.h
 	"functionsDB.h"
@@ -271,61 +290,57 @@
 1637933364 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/functionConnector.cpp
 	"functionConnector.h"
 
-1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionConnector.h
+1651119203 /home/Death/Desktop/C++ developement/Database Backend/Database/include/functionConnector.h
 	"paramDefinitions.h"
 	<asio.hpp>
 	<string>
 	<chrono>
 	<random>
+	<boost/asio/ip/address.hpp>
 	"Handler.h"
 
 1628683113 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query_Parser.cpp
 	"Query_Parser.h"
 
-1646281593 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Query_Parser.h
-	<unordered_map>
+1651055074 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Query_Parser.h
+	"paramDefinitions.h"
 	"Database.h"
 	"functionConnector.h"
-	"mutex"
-	<ctime>
-	<tuple>
 	"Exisiting_DB.h"
+	"aliQueHandler.h"
 
 1644318309 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Alive_Handler.cpp
 	"Alive_Handler.h"
 
-1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Alive_Handler.h
+1651054781 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Alive_Handler.h
 	"paramDefinitions.h"
-	<queue>
 	"paramDefinitions.h"
+	"functionConnector.h"
+	"conAliHandler.h"
+	"aliQueHandler.h"
+	"commonMeth.h"
 
 1631344852 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Test_class.cpp
 	"Test_class.h"
 
-1631344852 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Test_class.h
+1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Test_class.h
 
-1646281491 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Connection_Handler.h
-	<asio.hpp>
-	<asio/ip/tcp.hpp>
-	<future>
-	<thread>
-	<memory>
-	<atomic>
-	<list>
-	<mutex>
+1651119186 /home/Death/Desktop/C++ developement/Database Backend/Database/include/Connection_Handler.h
+	"paramDefinitions.h"
 	"Alive_Handler.h"
 	"Query_Parser.h"
 	"functionsDB.h"
-	"paramDefinitions.h"
 	"functionConnector.h"
+	"conAliHandler.h"
+	<fstream>
 
 1637931738 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection_Handler.cpp
 	"Connection_Handler.h"
 
-1644319660 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Alive Handler/Alive_Handler.cpp
+1651054234 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Alive Handler/Alive_Handler.cpp
 	"Alive_Handler.h"
 
-1646281636 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection Handler/Connection_Handler.cpp
+1651119405 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection Handler/Connection_Handler.cpp
 	"Connection_Handler.h"
 
 1637933364 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Connection Handler/functionConnector.cpp
@@ -356,4 +371,41 @@
 
 1628599214 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/NSQL_TabHandler.cpp
 	"NSQL_TabHandler.h"
+
+1651052516 /home/Death/Desktop/C++ developement/Database Backend/Database/include/conAliHandler.h
+	<boost/interprocess/mapped_region.hpp>
+	<boost/interprocess/shared_memory_object.hpp>
+	"paramDefinitions.h"
+
+1651052288 /home/Death/Desktop/C++ developement/Database Backend/Database/include/commonMeth.h
+	"paramDefinitions.h"
+
+1651053821 /home/Death/Desktop/C++ developement/Database Backend/Database/include/aliQueHandler.h
+	"paramDefinitions.h"
+	<boost/interprocess/shared_memory_object.hpp>
+	<boost/interprocess/mapped_region.hpp>
+
+1651054061 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Common/aliQueHandler.cpp
+	"aliQueHandler.h"
+
+1648702566 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Common/commonMeth.cpp
+	"commonMeth.h"
+
+1651054067 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Common/conAliHandler.cpp
+	"conAliHandler.h"
+
+1628428823 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/SQL_TabHandler.cpp
+	"SQL_TabHandler.h"
+
+1620299632 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/tableInfo.cpp
+	"tableInfo.h"
+
+1628600239 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/tableInfoNSQL.cpp
+	"tableInfoNSQL.h"
+
+1631344852 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Testing/Test_class.cpp
+	"Test_class.h"
+
+1651054369 source:/home/Death/Desktop/C++ developement/Database Backend/Database/src/Query Processor/Query_Parser.cpp
+	"Query_Parser.h"
 

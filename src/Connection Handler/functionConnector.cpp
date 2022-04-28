@@ -2,7 +2,10 @@
 
 using namespace std;
 
+
+
 vector<string> functionConnector::parse_FrontEnd_Mess(const string &mes){
+    //TODO: create request structure
     vector<string> request;
     string temp;
     bool flag=false,jflag=false;
@@ -27,4 +30,9 @@ vector<string> functionConnector::parse_FrontEnd_Mess(const string &mes){
 string functionConnector::gen_rand(const string& data1,const string& data2){
     //TODO: create random ID generator
     return "ABC";
+}
+
+string functionConnector::enc_UserId(string username,__int64_t id){
+    //TODO :use openssl enc methods to encrypt
+    return "A";
 }

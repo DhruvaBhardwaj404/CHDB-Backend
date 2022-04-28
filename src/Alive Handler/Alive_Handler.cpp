@@ -2,17 +2,20 @@
 
 Alive_Handler::Alive_Handler()
 {
-    //ctor
+;//TODO: use methods in conALiHandler;
 }
 
 
 Alive_Handler::~Alive_Handler()
 {
-    //dtor
+    ;//dtor
 }
 
 void Alive_Handler::run_Ah(){
+    if(DEBUG_ALIVE)
+        cout<<"[Alive Handler] Running \n";
+
     while(true){
-        cout<<"In Alive Han\n";
+
     }
 }

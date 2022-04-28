@@ -2,99 +2,133 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="include/paramDefinitions.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
+	<File name="src/Query Processor/Col_Handler.cpp" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="376" topLine="9" />
+			<Cursor1 position="0" topLine="69" />
 		</Cursor>
 	</File>
-	<File name="include/Connection_Handler.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1221" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="include/Database.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="13" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="38" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Connection Handler/Connection_Handler.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1527" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="include/Handler.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="350" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="include/tableInfo.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="12" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="71" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/SQL_TabHandler.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1479" topLine="22" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="10" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2868" topLine="97" />
-		</Cursor>
-	</File>
-	<File name="include/tableInfoNSQL.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="598" topLine="1" />
-		</Cursor>
-	</File>
-	<File name="src/Query Processor/Query_Parser.cpp" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="494" topLine="7" />
-		</Cursor>
-	</File>
-	<File name="src/Query Processor/Handler.cpp" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Query Processor/Handler.cpp" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="4896" topLine="211" />
 		</Cursor>
 	</File>
-	<File name="src/Alive Handler/Alive_Handler.cpp" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/Exisiting_DB.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="46" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Query Processor/DB_Exceptions.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/Query Processor/Database.cpp" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Alive Handler/Alive_Handler.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2392" topLine="95" />
+			<Cursor1 position="246" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/functionConnector.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="include/Connection_Handler.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="120" topLine="0" />
+			<Cursor1 position="224" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/functionsDB.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+	<File name="include/Handler.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="21" topLine="0" />
+			<Cursor1 position="350" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/Query_Parser.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+	<File name="include/Alive_Handler.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="193" topLine="9" />
+			<Cursor1 position="188" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="include/Hybrid_TabHandler.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Connection Handler/functionConnector.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="750" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/Col_Handler.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
+	<File name="include/Database.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="13" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="38" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/aliQueHandler.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="392" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/paramDefinitions.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="9" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="539" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="include/conAliHandler.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="200" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Query_Parser.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="857" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="include/commonMeth.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="412" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="src/Common/aliQueHandler.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="75" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/tableInfo.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="12" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="71" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Col_Handler.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="123" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/Test_class.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Connection Handler/Connection_Handler.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="2081" topLine="47" />
+		</Cursor>
+		<Folding>
+			<Collapse line="21" />
+			<Collapse line="169" />
+		</Folding>
+	</File>
+	<File name="src/Common/commonMeth.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="25" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="420" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Common/conAliHandler.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="75" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Query Processor/Query_Parser.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="190" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/functionConnector.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1426" topLine="61" />
+		</Cursor>
+	</File>
+	<File name="include/functionsDB.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="291" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include/DB_Exceptions.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="10" zoom_2="0">
@@ -102,19 +136,39 @@
 			<Cursor1 position="76" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/Alive_Handler.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+	<File name="src/Query Processor/NSQL_TabHandler.cpp" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="323" topLine="0" />
+			<Cursor1 position="680" topLine="430" />
 		</Cursor>
 	</File>
-	<File name="include/Exisiting_DB.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+	<File name="include/SQL_TabHandler.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="46" topLine="0" />
+			<Cursor1 position="1479" topLine="13" />
 		</Cursor>
 	</File>
-	<File name="include/NSQL_TabHandler.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="11" zoom_2="0">
+	<File name="include/tableInfoNSQL.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="52" topLine="19" />
+			<Cursor1 position="598" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Query Processor/Database.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Test_class.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Hybrid_TabHandler.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/NSQL_TabHandler.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="5" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1259" topLine="17" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

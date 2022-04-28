@@ -9,39 +9,104 @@
 #include"Database.h"
 #include"Connection_Handler.h"
 #include<syscall.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include"Alive_Handler.h"
+#include"Query_Parser.h"
+#include<boost/interprocess/shared_memory_object.hpp>
+#include<boost/interprocess/mapped_region.hpp>
+
+
 
 using namespace std;
 using namespace functionsDB;
+
+pid_t conHandler,queryPar,aliveHan;
+BIP::shared_memory_object conAli,aliQue;
+
+
+bool start_ConHandler(){
+    conHandler = fork();
+
+    if(DEBUG_MAIN)
+        cout<<"[main > start ConHandler] pid "<<conHandler<<endl;
+
+    if(conHandler<0)
+        throw ; //add exception
+    else if(conHandler>0)
+        return true;
+    else
+        return false;
+}
+
+bool start_queryPar(){
+    queryPar = fork();
+
+    if(DEBUG_MAIN)
+        cout<<"[main > start queryPar] pid "<<queryPar<<endl;
+
+    if(queryPar<0)
+        throw ; //add exception
+    else if(queryPar>0)
+        return true;
+    else
+        return false;
+}
+
+bool start_aliveHandler(){
+
+    aliveHan = fork();
+
+    if(DEBUG_MAIN)
+        cout<<"[main > start aliveHandler] pid "<<aliveHan<<endl;
+
+    if(aliveHan<0)
+        throw ; //add exception
+    else if(aliveHan>0)
+        return true;
+    else
+        return false;
+}
+
+bool init_sharedMem(){
+    try{
+        BIP::shared_memory_object::remove("ConAli");
+        BIP::shared_memory_object::remove("AliQue");
+
+        conAli=BIP::shared_memory_object(create_only,SHARED_MEM_CONALI,read_write);
+        conAli.truncate(SHARED_MEM_SIZE_C2A);
+
+        aliQue=BIP::shared_memory_object(create_only,SHARED_MEM_ALIQUE,read_write);
+        aliQue.truncate(SHARED_MEM_SIZE_A2Q);
+
+        return true;
+
+    }catch(...){
+        throw; //TODO:Add exception
+    }
+}
 
 int main()
 {
     try
     {
-        string command;
-        chdir("../data");
-        Exisiting_DB DB_info;   // Contains Info about existing databases
-        vector<string> pcom;
-
-        Database *DB;
-
-
-//==========display banner=============================================
 
         char banner[6][50]= {{"|==============================================|"},
-            {"|                 DBMS 1.0                     |"},
-            {"|                   KOSH                       |"},
-            {"|                created by-                   |"},
-            {"|                  Dhruva                      |"},
-            {"|==============================================|"}
-        };
+                             {"|                 DBMS 1.0                     |"},
+                             {"|                   KOSH                       |"},
+                             {"|                created by-                   |"},
+                             {"|                  Dhruva                      |"},
+                             {"|==============================================|"}
+                            };
+
         for(int a=0; a<6; a++)
         {
             cout<<"\t\t\t"<<banner[a]<<endl;
         }
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        Connection_Handler Con;
-        Con.run_Connector();
+
+
+
 //TODO: create three different processes for AH,CH,QP
 //TODO: intialise shared memory for IPC
 
@@ -113,10 +178,25 @@ int main()
 //   while(command!="exit");
 //    db.close();
 */
-
-
+    init_sharedMem();
+    if(start_ConHandler()){
+         Connection_Handler Con;
+         Con.run_Connector();//TODO: implement run_connector
     }
-    catch(...)
+    else{
+     if(start_aliveHandler()){//TODO: implement run aive_handler
+              Alive_Handler Ah;
+              Ah.run_Ah();
+       }
+        else{
+            if(start_queryPar()){ //TODO: implement run querpar
+                Query_Parser QP;
+                QP.run_Qp(); //TODO: implement run QP;
+            }
+       }
+    }
+}
+catch(...)
     {
         cout<<"[!!!]error occurred in main()!";
     }

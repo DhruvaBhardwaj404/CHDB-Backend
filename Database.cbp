@@ -11,17 +11,14 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="0" />
 				<Compiler>
 					<Add option="-std=c++14" />
-					<Add option="-pthread" />
 					<Add option="-lboost_filesystem" />
-					<Add option="-DBOOST_NO_CXX11_SCOPED_ENUMS" />
 					<Add option="-lboost_system" />
-					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
-					<Add option="-pthread" />
 					<Add option="-lboost_system" />
 				</Linker>
 			</Target>
@@ -72,6 +69,9 @@
 		<Unit filename="include/Test_class.h">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="include/aliQueHandler.h" />
+		<Unit filename="include/commonMeth.h" />
+		<Unit filename="include/conAliHandler.h" />
 		<Unit filename="include/functionConnector.h" />
 		<Unit filename="include/functionsDB.h" />
 		<Unit filename="include/paramDefinitions.h" />
@@ -79,6 +79,9 @@
 		<Unit filename="include/tableInfoNSQL.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Alive Handler/Alive_Handler.cpp" />
+		<Unit filename="src/Common/aliQueHandler.cpp" />
+		<Unit filename="src/Common/commonMeth.cpp" />
+		<Unit filename="src/Common/conAliHandler.cpp" />
 		<Unit filename="src/Connection Handler/Connection_Handler.cpp" />
 		<Unit filename="src/Connection Handler/functionConnector.cpp" />
 		<Unit filename="src/Query Processor/Col_Handler.cpp" />
