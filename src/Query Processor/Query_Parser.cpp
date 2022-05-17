@@ -1,10 +1,16 @@
 #include "Query_Parser.h"
 using namespace functionConnector;
 
-Query_Parser::Query_Parser()
+Query_Parser::Query_Parser():FE(service),RI(service)
 {
-
-
+    try{
+        asio::ip::tcp::endpoint ep(asio::ip::address::from_string(SOCKET_QPAR_IP),SOCKET_QPAR_PORT);
+        FE.open(asio::ip::tcp::v4());
+        FE.bind(ep);
+    }
+    catch(...){
+        cout<<"[Query Parser > Constructor ] Unable to bind to given port\n";
+    }
 }
 
 
@@ -15,7 +21,12 @@ Query_Parser::~Query_Parser()
 
 void Query_Parser::run_Qp(){
     if(DEBUG_QUE)
-    cout<<"[query parser] running\n";
+        cout<<"[query parser] running\n";
+
+    FE.listen();
+    asio::error_code e;
+    FE.accept(RI,e);
+    RI_handler(e);
     while(true){
         ;
     }
@@ -62,4 +73,9 @@ void Query_Parser::fetch(vector<string> query){             // dbname,collection
 }
  bool Query_Parser::get_data(string,string,database_Open*){
     //TODO get data
+}
+
+void Query_Parser::RI_handler(asio::error_code){
+    if(DEBUG_QUE)
+        cout<<"[query parser] Request Emitter connected\n";
 }

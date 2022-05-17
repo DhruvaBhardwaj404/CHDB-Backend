@@ -1,24 +1,34 @@
 #ifndef CONALIHANDLER_H
 #define CONALIHANDLER_H
-#include<boost/interprocess/mapped_region.hpp>
-#include<boost/interprocess/shared_memory_object.hpp>
+#include<boost/interprocess/managed_shared_memory.hpp>
+#include<boost/interprocess/sync/named_mutex.hpp>
+#include<boost/circular_buffer.hpp>
 #include"paramDefinitions.h"
+#include"commonMeth.h"
+#define DEBUG_CONALIHANDLER true
+
 
 using namespace std;
-using namespace boost::interprocess;
+using namespace commonMeth;
 
-
-//TODO: handler shared memory message retreival
 class conAliHandler
 {
     public:
-        conAliHandler();
+        conAliHandler(bool m);
         ~conAliHandler();
         string fetch_msg();
-        void send_msg();
+        bool send_msg(const string & mess);
+//        bool write_meta();
+//        bool read_meta();
     private:
-        shared_memory_object conAli;
-        mapped_region mesSpace;
+        BIP::managed_shared_memory conAli;
+//        queue<conAliHeader> *mesQA,*mesQC;
+//        conAliMeta *sharedM;
+        boost::interprocess::named_mutex mutexCA;
+        boost::circular_buffer<string> *mesA,*mesC;
+//        int8_t cur_req,cur_ack;
+        bool mode;   //false= con || true=ali
+
 
 
 };

@@ -63,6 +63,7 @@
 		<Unit filename="include/Exisiting_DB.h" />
 		<Unit filename="include/Handler.h" />
 		<Unit filename="include/Hybrid_TabHandler.h" />
+		<Unit filename="include/Master_FHANDLER.h" />
 		<Unit filename="include/NSQL_TabHandler.h" />
 		<Unit filename="include/Query_Parser.h" />
 		<Unit filename="include/SQL_TabHandler.h" />
@@ -72,6 +73,7 @@
 		<Unit filename="include/aliQueHandler.h" />
 		<Unit filename="include/commonMeth.h" />
 		<Unit filename="include/conAliHandler.h" />
+		<Unit filename="include/functionAlive.h" />
 		<Unit filename="include/functionConnector.h" />
 		<Unit filename="include/functionsDB.h" />
 		<Unit filename="include/paramDefinitions.h" />
@@ -79,6 +81,7 @@
 		<Unit filename="include/tableInfoNSQL.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Alive Handler/Alive_Handler.cpp" />
+		<Unit filename="src/Alive Handler/functionAlive.cpp" />
 		<Unit filename="src/Common/aliQueHandler.cpp" />
 		<Unit filename="src/Common/commonMeth.cpp" />
 		<Unit filename="src/Common/conAliHandler.cpp" />
@@ -90,6 +93,7 @@
 		<Unit filename="src/Query Processor/Exisiting_DB.cpp" />
 		<Unit filename="src/Query Processor/Handler.cpp" />
 		<Unit filename="src/Query Processor/Hybrid_TabHandler.cpp" />
+		<Unit filename="src/Query Processor/Master_FHANDLER.cpp" />
 		<Unit filename="src/Query Processor/NSQL_TabHandler.cpp" />
 		<Unit filename="src/Query Processor/Query_Parser.cpp" />
 		<Unit filename="src/Query Processor/SQL_TabHandler.cpp" />

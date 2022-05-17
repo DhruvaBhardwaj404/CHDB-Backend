@@ -32,7 +32,7 @@
 //Boost libraries
 #include<asio.hpp>
 #include<asio/ip/tcp.hpp>
-#include<boost/interprocess/shared_memory_object.hpp>
+#include<boost/interprocess/managed_shared_memory.hpp>
 #include<boost/interprocess/mapped_region.hpp>
 
 //MAIN
@@ -88,10 +88,36 @@
 #define SIZE_TAIL 3
 
 //shared memory
+#define MAX_QUEUE_ALIQUE 16
+#define MAX_QUEUE_CONALI 16
 #define SHARED_MEM_SIZE_A2Q 2048
 #define SHARED_MEM_SIZE_C2A 2048
+
 
 #define SHARED_MEM_ALIQUE "AliQue"
 #define SHARED_MEM_CONALI "ConAli"
 
+#define ALIQUE_AQUEUE "AQ"
+#define ALIQUE_QQUEUE "QQ"
+#define ALIQUE_AMESSAGE_BUFFER "AMB"
+#define ALIQUE_QMESSAGE_BUFFER "QMB"
+#define ALIQUE_META "AM"
+#define ALIQUE_MUTEX "AQMUT"
+
+#define CONALI_CQUEUE "CQ"
+#define CONALI_AQUEUE "AQ"
+#define CONALI_CMESSAGE_BUFFER "CMB"
+#define CONALI_AMESSAGE_BUFFER "AMB"
+#define CONALI_META "CM"
+#define CONALI_MUTEX "CAMUT"
+
+//socket addresses and ports
+#define SOCKET_ALIVE_IP "127.0.0.1"
+#define SOCKET_ALIVE_PORT 5010
+#define SOCKET_CONHAN_IP "127.0.0.1"
+#define SOCKET_CONHAN_PORT  5009
+#define SOCKET_QPAR_IP "127.0.0.1"
+#define SOCKET_QPAR_PORT 5008
+
 #endif // PARAMDEFINITIONS_H
+

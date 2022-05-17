@@ -3,14 +3,19 @@
 
 using namespace std;
 
-Connection_Handler::Connection_Handler():Fsock(service),file_MDB(MDB_FILENAME,ios::in | ios::out )//,Asock(service)
+Connection_Handler::Connection_Handler():FE(service),
+        file_MDB(MDB_FILENAME,ios::in | ios::out ),
+        CA(false),
+        RI(service)
+
 {
     try{
-        Fsock.connect(asio::ip::tcp::endpoint(asio::ip::address::from_string("127.0.0.1"),5000));
-        //Asock.connect(asio::ip::tcp::endpoint(asio::ip::address::from_string("127.0.0.1"),5001));
+        asio::ip::tcp::endpoint ep(asio::ip::address::from_string(SOCKET_CONHAN_IP),SOCKET_CONHAN_PORT);
+        FE.open(asio::ip::tcp::v4());
+        FE.bind(ep);
     }
     catch(...){
-        cout<<"[!!!]Unable to connect to Fsock or Asock!\n";
+        cout<<"[Connection Handler > Constructor ]Unable to bind to given port\n";
     }
 
     //TODO: use conAliHAndler methods to share messages;
@@ -54,6 +59,10 @@ void Connection_Handler::run_Connector(){
                 adminHand=async(bind(&Connection_Handler::admin_Handler,this),launch::async),
                 masterDB=async(bind(&Connection_Handler::init_Master,this),launch::async);
 
+    FE.listen();
+    asio::error_code e;
+    FE.accept(RI,e);
+    RI_handler(e);
 }
 
 void Connection_Handler::init_Master()
@@ -124,6 +133,7 @@ bool Connection_Handler::comp_Checker(const string &mes,int size){
 void Connection_Handler::new_ClientHandler(const vector<string> &request){
     //TODO: authenticate using table from database
 }
+
 void Connection_Handler::exist_ClientHandler(const vector<string> &request){
     //TODO: manage existing active client accessed by admin panel
 }
@@ -165,6 +175,11 @@ bool Connection_Handler::client_Authen(string username,string password){
 
 void Connection_Handler::admin_Handler(){
     ;
+}
+
+void Connection_Handler::RI_handler(asio::error_code){
+    if(DEBUG_CONN)
+        cout<<"[connection Handler] Request Identifier Connected\n";
 }
 
 /*

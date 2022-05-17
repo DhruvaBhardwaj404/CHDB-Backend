@@ -8,13 +8,15 @@
 #include"functionConnector.h"
 #include"conAliHandler.h"
 #include<fstream>
+
 #define MDB_FILENAME "MDB"
+
 
 using namespace std;
 using functionConnector::collection_Open;
 
 
-//TODO() Connection Handler
+//TODO: Connect to Frontend
 
 class Connection_Handler
 {
@@ -33,6 +35,7 @@ public:
     void start_ClientHandler(const vector<string> &);
     //void thread_Handler();
     void admin_Handler();
+    static void RI_handler(asio::error_code);
     ~Connection_Handler();
 
 
@@ -43,14 +46,15 @@ private:
     unordered_map<string,client_MDB> MDB;
     //not required vector<std::shared_ptr<Alive_Handler> > Alive;
     vector<std::unique_ptr<thread> > reqHandler;
-    asio::ip::tcp::socket Fsock;//Asock;
+    asio::ip::tcp::acceptor FE;//Asock;
+    asio::ip::tcp::socket RI;
     atomic<bool> running;
     fstream file_MDB;
     //not required bitset<MAX_THREADS> emptyThreads;
     //not required vector<short> getEmpty;
     //not required Query_Parser *clientDB;
     //not required timed_mutex tLock;
-    conAliHandler sM;
+    conAliHandler CA;
 };
 
 #endif // CONNECTION_HANDLER_H

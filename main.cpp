@@ -13,8 +13,10 @@
 #include<sys/types.h>
 #include"Alive_Handler.h"
 #include"Query_Parser.h"
-#include<boost/interprocess/shared_memory_object.hpp>
-#include<boost/interprocess/mapped_region.hpp>
+#include<boost/interprocess/managed_shared_memory.hpp>
+#include<boost/interprocess/sync/named_mutex.hpp>
+#include<boost/circular_buffer.hpp>
+#include"commonMeth.h"
 
 
 
@@ -22,7 +24,7 @@ using namespace std;
 using namespace functionsDB;
 
 pid_t conHandler,queryPar,aliveHan;
-BIP::shared_memory_object conAli,aliQue;
+BIP::managed_shared_memory conAli,aliQue;
 
 
 bool start_ConHandler(){
@@ -68,20 +70,45 @@ bool start_aliveHandler(){
         return false;
 }
 
+/***
+    init_sharedMem
+    -  Initializes shared memory for communication between Connection_Handler,
+        Alive_Handler and Query_Parser
+    -  Intializes mutexes for the both the shared memories
+
+**/
 bool init_sharedMem(){
     try{
-        BIP::shared_memory_object::remove("ConAli");
-        BIP::shared_memory_object::remove("AliQue");
+        BIP::shared_memory_object::remove(SHARED_MEM_ALIQUE);
+        BIP::shared_memory_object::remove(SHARED_MEM_CONALI);
 
-        conAli=BIP::shared_memory_object(create_only,SHARED_MEM_CONALI,read_write);
-        conAli.truncate(SHARED_MEM_SIZE_C2A);
+        conAli=BIP::managed_shared_memory(boost::interprocess::create_only,SHARED_MEM_CONALI,SHARED_MEM_SIZE_C2A*4);
+        //conAliMeta temp{0,0,time(nullptr)};
+        //conAli.construct<conAliMeta>(CONALI_META)(temp);
 
-        aliQue=BIP::shared_memory_object(create_only,SHARED_MEM_ALIQUE,read_write);
-        aliQue.truncate(SHARED_MEM_SIZE_A2Q);
+        conAli.construct< boost::circular_buffer<string> > (CONALI_CMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
+        conAli.construct< boost::circular_buffer<string> > (CONALI_AMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
+        //conAli.construct< queue<conAliHeader> >(CONALI_CQUEUE)();
+        //conAli.construct< queue<conAliHeader> >(CONALI_AQUEUE)();
+
+        boost::interprocess::named_mutex conAliMutex(boost::interprocess::open_or_create,CONALI_MUTEX);
+
+        aliQue=BIP::managed_shared_memory(boost::interprocess::create_only,SHARED_MEM_ALIQUE,SHARED_MEM_SIZE_A2Q*4);
+        //aliQueMeta temp2{0,0,time(nullptr)};
+        //aliQue.construct<aliQueMeta>(ALIQUE_META)(temp2);
+
+        aliQue.construct< boost::circular_buffer<string> > (ALIQUE_AMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
+        aliQue.construct< boost::circular_buffer<string> > (ALIQUE_QMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
+        //aliQue.construct< queue<aliQueHeader> >(ALIQUE_AQUEUE)();
+        //aliQue.construct< queue<aliQueHeader> >(ALIQUE_QQUEUE)();
+
+        boost::interprocess::named_mutex aliQueMutex(boost::interprocess::open_or_create,ALIQUE_MUTEX);
 
         return true;
 
     }catch(...){
+        if(DEBUG_MAIN)
+            cout<<"[main > init_sharedMem] Error\n";
         throw; //TODO:Add exception
     }
 }
@@ -92,9 +119,9 @@ int main()
     {
 
         char banner[6][50]= {{"|==============================================|"},
-                             {"|                 DBMS 1.0                     |"},
-                             {"|                   KOSH                       |"},
-                             {"|                created by-                   |"},
+                             {"|           Cloud-Hybird Database              |"},
+                             {"|                 MEGH KOSH                    |"},
+                             {"|                Created by-                   |"},
                              {"|                  Dhruva                      |"},
                              {"|==============================================|"}
                             };
@@ -107,8 +134,8 @@ int main()
 
 
 
-//TODO: create three different processes for AH,CH,QP
-//TODO: intialise shared memory for IPC
+
+
 
 /*
 //  fstream db;
@@ -198,6 +225,11 @@ int main()
 }
 catch(...)
     {
-        cout<<"[!!!]error occurred in main()!";
+        if(DEBUG_MAIN)
+            cout<<"[!!!]error occurred in main()!";
     }
 }
+
+
+
+//TODO: SET UP SOCKET ACCEPTOR TO ACCEPT FE CONNETIONS
