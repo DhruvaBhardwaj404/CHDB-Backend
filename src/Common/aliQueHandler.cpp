@@ -7,8 +7,8 @@ aliQueHandler::aliQueHandler(bool m):aliQue(boost::interprocess::open_only,SHARE
     //mesQA=aliQue.find<queue<conAliHeader> >(ALIQUE_AQUEUE).first;
     //mesQQ=aliQue.find<queue<conAliHeader> >(ALIQUE_QQUEUE).first;
     //sharedM=aliQue.find<aliQueMeta>(ALIQUE_META).first;
-    mesA=aliQue.find<boost::circular_buffer<string> >(ALIQUE_AMESSAGE_BUFFER).first;
-    mesQ=aliQue.find<boost::circular_buffer<string> >(ALIQUE_QMESSAGE_BUFFER).first;
+    mesA=aliQue.find<boost::circular_buffer<vector<pair<string,string> > > >(ALIQUE_AMESSAGE_BUFFER).first;
+    mesQ=aliQue.find<boost::circular_buffer<vector<pair<string,string> > > >(ALIQUE_QMESSAGE_BUFFER).first;
 //    offQ=0;
 //    offA=0;
 }
@@ -27,22 +27,23 @@ aliQueHandler::~aliQueHandler()
 
 ***/
 
-string aliQueHandler::fetch_msg(){
+vector<pair<string,string> > aliQueHandler::fetch_msg(){
     if(mode && mesQ->size()==0)
-        return "NONE";
+        return {{"NONE",""}};
     else if(!mode && mesA->size()==0)
-        return "None";
-    string temp;
+        return {{"None",""}};
+
+    vector<pair<string,string> > temp;
 
     mutexAQ.lock();
         if(mode){
-            temp=(mesQ->front()).c_str();
+            temp=mesQ->front();
             mesQ->pop_front();
             return temp;
         }
 
         else{
-            temp=(mesA->front()).c_str();
+            temp=mesA->front();
             mesA->pop_front();
             return temp;
         }
@@ -57,7 +58,7 @@ string aliQueHandler::fetch_msg(){
             false -> unable to send
 
 ***/
-bool aliQueHandler::send_msg(int8_t action,const string &mess){
+bool aliQueHandler::send_msg(const vector<pair<string,string> > &mess){
 
     if(mode && mesQ->size()==MAX_QUEUE_ALIQUE){
         if(DEBUG_ALIQUEHANDLER)

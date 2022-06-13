@@ -16,8 +16,8 @@ class conAliHandler
     public:
         conAliHandler(bool m);
         ~conAliHandler();
-        string fetch_msg();
-        bool send_msg(const string & mess);
+        vector<pair<string,string> >fetch_msg();
+        bool send_msg(const vector<pair<string,string> > & mess);
 //        bool write_meta();
 //        bool read_meta();
     private:
@@ -25,7 +25,7 @@ class conAliHandler
 //        queue<conAliHeader> *mesQA,*mesQC;
 //        conAliMeta *sharedM;
         boost::interprocess::named_mutex mutexCA;
-        boost::circular_buffer<string> *mesA,*mesC;
+        boost::circular_buffer<vector<pair<string,string> > > *mesA,*mesC;
 //        int8_t cur_req,cur_ack;
         bool mode;   //false= con || true=ali
 

@@ -15,8 +15,8 @@ class aliQueHandler
 public:
         aliQueHandler(bool m);
         ~aliQueHandler();
-        string fetch_msg();
-        bool send_msg(int8_t action,const string &mess);
+        vector<pair<string,string> > fetch_msg();
+        bool send_msg(const vector<pair<string,string> > &mess);
 //        bool write_meta();
 //        bool read_meta();
     private:
@@ -24,7 +24,7 @@ public:
         //queue<conAliHeader> *mesQA,*mesQQ;
         //aliQueMeta *sharedM;
         boost::interprocess::named_mutex mutexAQ;
-        boost::circular_buffer<string> *mesA,*mesQ;
+        boost::circular_buffer<vector<pair<string,string> > > *mesA,*mesQ;
         //int16_t offQ,offA;
         bool mode;   //false= ali || true=que
 };

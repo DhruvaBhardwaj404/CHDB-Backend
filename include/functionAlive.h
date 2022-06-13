@@ -2,14 +2,23 @@
 #define FUNCTIONALIVE_H
 
 #include<string>
+#include<vector>
+#include"paramDefinitions.h"
+
 using namespace std;
 
 namespace functionAlive{
     struct Client_Detail{
-        string database;
-        string collection;
-        string table;
+        bool MasterLock=false;
+        vector<string> locked_Tables;
     };
+
+    struct Client_User{
+        unordered_map<string,Client_Detail>::iterator client;
+        vector<string> table;
+    };
+
+
 
 }
 

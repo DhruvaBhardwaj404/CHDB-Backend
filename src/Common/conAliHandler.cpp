@@ -7,8 +7,8 @@ conAliHandler::conAliHandler(bool m):conAli(boost::interprocess::open_only,SHARE
 //    mesQA=conAli.find<queue<conAliHeader> >(CONALI_AQUEUE).first;
 //    mesQC=conAli.find<queue<conAliHeader> >(CONALI_CQUEUE).first;
 //    sharedM=conAli.find< conAliMeta > (CONALI_META).first;
-    mesA=conAli.find< boost::circular_buffer<string> > (CONALI_AMESSAGE_BUFFER).first;
-    mesC=conAli.find< boost::circular_buffer<string> > (CONALI_CMESSAGE_BUFFER).first;
+    mesA=conAli.find< boost::circular_buffer<vector<pair<string,string> > > > (CONALI_AMESSAGE_BUFFER).first;
+    mesC=conAli.find< boost::circular_buffer<vector<pair<string,string> > > > (CONALI_CMESSAGE_BUFFER).first;
 
 }
 
@@ -17,22 +17,22 @@ conAliHandler::~conAliHandler()
     //dtor
 }
 
-string conAliHandler::fetch_msg(){
+vector<pair<string,string> > conAliHandler::fetch_msg(){
 if(mode && mesA->size()==0)
-        return "NONE";
+        return {{"NONE",""}};
     else if(!mode && mesC->size()==0)
-        return "None";
-    string temp;
+        return {{"NONE",""}};
+    vector<pair<string,string> > temp;
 
     mutexCA.lock();
         if(mode){
-            temp=(mesA->front()).c_str();
+            temp=mesA->front();
             mesA->pop_front();
             return temp;
         }
 
         else{
-            temp=(mesC->front()).c_str();
+            temp=mesC->front();
             mesC->pop_front();
             return temp;
         }
@@ -40,7 +40,7 @@ if(mode && mesA->size()==0)
 }
 
 
-bool conAliHandler::send_msg(const string & mess){
+bool conAliHandler::send_msg(const vector<pair<string,string> > & mess){
 
     if(mode && mesA->size()==MAX_QUEUE_CONALI){
         if(DEBUG_CONALIHANDLER)

@@ -4,9 +4,6 @@
 #include<new>
 #include<fstream>
 #include<unistd.h>
-#include"functionsDB.h"
-#include"Exisiting_DB.h"
-#include"Database.h"
 #include"Connection_Handler.h"
 #include<syscall.h>
 #include<unistd.h>
@@ -17,11 +14,14 @@
 #include<boost/interprocess/sync/named_mutex.hpp>
 #include<boost/circular_buffer.hpp>
 #include"commonMeth.h"
+#include<gtest/gtest.h>
+#include<syscall.h>
 
+#define GLOBAL_DEBUG false
 
 
 using namespace std;
-using namespace functionsDB;
+
 
 pid_t conHandler,queryPar,aliveHan;
 BIP::managed_shared_memory conAli,aliQue;
@@ -29,6 +29,7 @@ BIP::managed_shared_memory conAli,aliQue;
 
 bool start_ConHandler(){
     conHandler = fork();
+
 
     if(DEBUG_MAIN)
         cout<<"[main > start ConHandler] pid "<<conHandler<<endl;
@@ -86,8 +87,8 @@ bool init_sharedMem(){
         //conAliMeta temp{0,0,time(nullptr)};
         //conAli.construct<conAliMeta>(CONALI_META)(temp);
 
-        conAli.construct< boost::circular_buffer<string> > (CONALI_CMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
-        conAli.construct< boost::circular_buffer<string> > (CONALI_AMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
+        conAli.construct< boost::circular_buffer<vector<pair<string,string> > > > (CONALI_CMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
+        conAli.construct< boost::circular_buffer<vector<pair<string,string> > > > (CONALI_AMESSAGE_BUFFER) (MAX_QUEUE_ALIQUE);
         //conAli.construct< queue<conAliHeader> >(CONALI_CQUEUE)();
         //conAli.construct< queue<conAliHeader> >(CONALI_AQUEUE)();
 
@@ -97,8 +98,8 @@ bool init_sharedMem(){
         //aliQueMeta temp2{0,0,time(nullptr)};
         //aliQue.construct<aliQueMeta>(ALIQUE_META)(temp2);
 
-        aliQue.construct< boost::circular_buffer<string> > (ALIQUE_AMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
-        aliQue.construct< boost::circular_buffer<string> > (ALIQUE_QMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
+        aliQue.construct< boost::circular_buffer<vector<pair<string,string> > > > (ALIQUE_AMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
+        aliQue.construct< boost::circular_buffer<vector<pair<string,string> > > > (ALIQUE_QMESSAGE_BUFFER) (MAX_QUEUE_CONALI);
         //aliQue.construct< queue<aliQueHeader> >(ALIQUE_AQUEUE)();
         //aliQue.construct< queue<aliQueHeader> >(ALIQUE_QQUEUE)();
 
@@ -113,7 +114,7 @@ bool init_sharedMem(){
     }
 }
 
-int main()
+int main(int argc, char **argv)
 {
     try
     {
@@ -133,79 +134,18 @@ int main()
 
 
 
-
-
-
-
-/*
-//  fstream db;
-//
-//  do{
-//
-//   cout.flush();
-//   cout<<endl<<"=> ";
-//   getline(cin,command);
-//   pcom=parse(command);
-//
-//   if(pcom[0]=="exit"){
-//        break;
-//     }
-//
-//   if(pcom.size()<2){
-//        cout<<"[!!!]Insufficient arguments!";
-//        continue;
-//   }
-//
-//   if(pcom.size()==3){
-//      if(pcom[0]=="create" && pcom[1]=="database"){
-//
-//          if(DB_info.find(pcom[2])==0){
-//            cout<<endl<<"[!!!] Database with the same name exist!!"<<endl;
-//          }
-//
-//          else{
-//                DB_info.add(pcom[2]);
-//                DB=new Database(pcom[2]);
-//                DB->use_DB();
-//                delete DB;
-//                chdir("../");
-//            }
-//        }
-//    }
-//    else if(pcom.size()==2){
-//      if(pcom[0]=="use"){
-//          if(DB_info.find(pcom[1])==0){
-//            string loc="./"+pcom[1];
-//            chdir(loc.c_str());
-//            DB=new Database();
-//            DB->use_DB();
-//            chdir("../");
-//
-//          }
-//          else{
-//            cout<<"[!!!] No database with specified name exist!";
-//          }
-//      }
-//    }
-//     else if(pcom[0]!="exit"){
-//        cout<<endl<<"[!!!]Command not recognised!"<<endl;
-//     }
-//
-//    db.open("Database_Info.txt",ios::out|ios::binary);
-//    if(db.is_open()){
-//        db.write((char*)&DB_info,sizeof(DB_info));
-//        db.close();
-//    }
-//    else{
-//        cout<<"[!!!]Couldn't update Database_Info.txt!";
-//        exit(0);
-//    }
-//
-//  }
-//   while(command!="exit");
-//    db.close();
-*/
     init_sharedMem();
+
+    if(GLOBAL_DEBUG){
+        chdir("/home/Death/Desktop");
+        system("rm -r \"$PWD/test_CHDB\"");
+        system("mkdir test_CHDB");
+        chdir("/home/Death/Desktop/test_CHDB");
+        system("pwd");
+        ::testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+
+    }
     if(start_ConHandler()){
          Connection_Handler Con;
          Con.run_Connector();//TODO: implement run_connector

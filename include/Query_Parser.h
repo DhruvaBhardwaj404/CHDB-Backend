@@ -2,12 +2,10 @@
 #define QUERY_PARSER_H
 
 #include"paramDefinitions.h"
-#include"Database.h"
 #include"functionConnector.h"
-#include"Exisiting_DB.h"
 #include"aliQueHandler.h"
-
-
+#include"Hybrid_TabHandler.h"
+#include"Master_FHANDLER.h"
 
 
 using namespace functionConnector;
@@ -16,23 +14,21 @@ class Query_Parser
 {
 public:
     Query_Parser();
-    static unordered_map<string,tuple<database_Open,mutex,time_t>> DB;
-    static void discard_unused();
-    static bool check_Ifopen();
     void run_Qp();
-    static database_Open* open_DB(const string &,const string &,const string &,const string &);
-    static bool get_data(string,string,database_Open*);
-    void fetch(vector<string> query);
-    static void RI_handler(asio::error_code);
-    static Exisiting_DB masterR;
-    static mutex masterM;
+    void query_Handler();
+    void RE_Handler();
     ~Query_Parser();
 private:
     asio::io_context service;
     asio::ip::tcp::acceptor FE;
-    asio::ip::tcp::socket RI;
+    asio::ip::tcp::socket RE;
+    aliQueHandler AQ;
+    list<string> mesRE;
+    mutex MRE;
+    unordered_map<string,Master_FHANDLER*> activeClients;
+    atomic<bool> running;
 
-    //shared_memory_object AQ;
+
 };
 
 #endif // QUERY_PARSER_H

@@ -29,6 +29,9 @@
 #include<tuple>
 #include<unordered_map>
 
+
+
+
 //Boost libraries
 #include<asio.hpp>
 #include<asio/ip/tcp.hpp>
@@ -36,7 +39,7 @@
 #include<boost/interprocess/mapped_region.hpp>
 
 //MAIN
-#define DEBUG_MAIN true
+#define DEBUG_MAIN false
 #define BIP boost::interprocess
 
 //Connection Handler
@@ -44,48 +47,18 @@
 #define MAX_THREADS 5
 #define MAX_PAC_SIZE 256
 #define MAX_WAIT 10
+#define MDB_FILENAME "MDB"
+#define CON_HAN_PATH "~/CHDB/CHDATA"
 
 //Alive Handler
 #define MAX_THREADS 5
 #define DEBUG_ALIVE true
+#define MAX_MESS_SIZE 1024
+#define AH_NUM_SOCK 5
 
 //Query Parser
 #define DEBUG_QUE true
-
-//DATABASE CLASS DEFINITIONS
-#define MAX_DB_NAME 20
-#define HASH_SIZE 3135
-
-//FUNCTIONS DB CLASS
-
-#define TYPE_SIZE 7
-
-//HANDLER CLASS
-#define MAX_COL_NAME 20
-
-//COL HANDLER CLASS
-#define MAX_TAB_NAME 20
-
-//SQL CLASS DEFINTIONS
-#define MAX_COL 100
-#define MAX_RPP 4
-#define MAX_SIZE_NAME 20
-#define MAX_COL_NAME_SIZE 20
-
-//NSQL CLASS DEFINTIONS
-#define MAX_ATTR 100
-#define MAX_SBS 1000
-#define MAX_SIZE_NAME 20
-#define MAX_COL_NAME_SIZE 20
-#define SIZE_ATTR_NAME 20
-#define SIZE_ATTR_INFO 1
-#define SIZE_KEY 2
-#define MAX_CHUNCKS 100
-#define SIZE_FCHUNCKS 50
-#define SIZE_SMALL_CHUNKS 25
-#define SIZE_BIG_CHUNKS 100
-#define SIZE_HEAD 1
-#define SIZE_TAIL 3
+#define QUERY_PATH "~/CHDB/data"
 
 //shared memory
 #define MAX_QUEUE_ALIQUE 16
@@ -118,6 +91,9 @@
 #define SOCKET_CONHAN_PORT  5009
 #define SOCKET_QPAR_IP "127.0.0.1"
 #define SOCKET_QPAR_PORT 5008
+
+// shorthands for containers
+#define VVPSS vector<vector<pair<string,string> > >
 
 #endif // PARAMDEFINITIONS_H
 

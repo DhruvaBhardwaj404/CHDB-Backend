@@ -8,12 +8,9 @@
 #include"commonMeth.h"
 #include"functionAlive.h"
 
-#define AH_NUM_SOCK 5
-
-
 
 using namespace std;
-using commonMeth::RQueue;
+using namespace commonMeth;
 using namespace functionAlive;
 
 class Alive_Handler{
@@ -21,27 +18,30 @@ class Alive_Handler{
 public:
     Alive_Handler();
     ~Alive_Handler();
-    static void RE_handler(asio::error_code);
-    static void RI_handler(asio::error_code);
+
     void run_Ah();
-    void authen_client();
-    void send_query();
-    void send_req_ack();
-    void add_client();
+    unordered_map<string,Client_Detail>::iterator authen_client(const string &TOK,const string &TAB);
+    void CH_handler();
+    void RE_handler();
+    void RI_handler();
+    void mesRI_handler();
+
+
 
 private:
-    unordered_map<string,Client_Detail> regClients;   //registers clients for query
+    unordered_map<string,Client_User> regUsers;
+    unordered_map<string,Client_Detail> regClients;
     conAliHandler CA;
     aliQueHandler AQ;
     asio::io_context service;
     asio::ip::tcp::acceptor FE;
     asio::ip::tcp::socket RI,RE;
-    uint8_t numAC;
+    list<string> mesRI,mesRE;
+    mutex MRI,MRE;
+    atomic<bool> running;
 };
 
-/*
-    TODO : create query parser to run on fork and it will recieve and serve request using shared memory
-    TODO : alive handler will also run on fork and comm using shared with connection handler
-    TODO : Will share message with connection handler through message passign
-*/
+    //void send_query(const vector<pair<string,string> > &query);
+    //void send_req_ack();
+
 #endif // ALIVE_HANDLER_H

@@ -1,8 +1,13 @@
 #include "Query_Parser.h"
 using namespace functionConnector;
 
-Query_Parser::Query_Parser():FE(service),RI(service)
+Query_Parser::Query_Parser():FE(service),
+              RE(service),
+              AQ(true)
 {
+
+    chdir(QUERY_PATH);
+
     try{
         asio::ip::tcp::endpoint ep(asio::ip::address::from_string(SOCKET_QPAR_IP),SOCKET_QPAR_PORT);
         FE.open(asio::ip::tcp::v4());
@@ -11,6 +16,7 @@ Query_Parser::Query_Parser():FE(service),RI(service)
     catch(...){
         cout<<"[Query Parser > Constructor ] Unable to bind to given port\n";
     }
+    running=true;
 }
 
 
@@ -24,58 +30,124 @@ void Query_Parser::run_Qp(){
         cout<<"[query parser] running\n";
 
     FE.listen();
-    asio::error_code e;
-    FE.accept(RI,e);
-    RI_handler(e);
-    while(true){
-        ;
+    while(!RE.is_open())
+        FE.accept(RE);
+
+    if(DEBUG_QUE && RE.is_open()){
+        cout<<"[query parser] Request Emitter Connected \n";
+    }
+
+    future<void> query_Han = async(std::launch::deferred,bind(&Query_Parser::query_Handler,this)),
+                 RE_Han    = async(std::launch::deferred,bind(&Query_Parser::RE_Handler,this));
+
+}
+
+void Query_Parser::query_Handler(){
+    while(running){
+        string response;
+        auto query= AQ.fetch_msg();
+
+        if( query[0].first != "NONE" ){
+
+            if(DEBUG_QUE){
+                cout<<"[query parser > run QP] "<<endl;
+                for(auto x:query){
+                    cout<<x.first<<" : "<<x.second<<" | ";
+                }
+                cout<<endl;
+            }
+
+            if(query[0].first=="CMD"){
+                if(query[0].second == "OPN"){
+                    auto cPtr=activeClients.find(query[1].second);
+                    if(cPtr==activeClients.end()){
+                        Master_FHANDLER *temp=new Master_FHANDLER(query[1].second);
+                        activeClients.insert({query[1].second,temp});
+                        response="DATABASE SERVICE ACTIVE";
+                    }
+                    else{
+                        response="ALREADY ACTIVE";
+                    }
+                }
+                if(query[0].second == "ADM"){
+
+                    if(query[1].second == "QUER"){
+                         string usr= query.back().second;
+                         auto client=activeClients.find(usr);
+
+                        if(client!=activeClients.end()){
+
+                            auto res=client->second->query_Table(query,0);
+                            response= vvss_to_string2(res);
+
+                        }
+                        else {
+                            response="INVALID REQUEST";
+                        }
+                    }
+
+                    else if(query[1].second == "ATAB"){
+
+                        string usr= query[query.size()-1].second;
+                        auto client=activeClients.find(usr);
+
+                        if(client!=activeClients.end()){
+                            try{
+                                auto res=client->second->set_Table_Active(query[1].second);
+                                response= "INVALID REQUEST";
+                            }
+                            catch(...){
+                                response="SOMETHING WENT WRONG";
+                            }
+                        }
+                        else {
+                            response="INVALID REQUEST";
+                        }
+
+                    }
+                    else if(query[1].second == "DTAB"){
+                        //TODO
+                        response="NOT FUNCTIONAL";
+                    }
+                }
+            }
+            if(query[0].first == "TAB"){
+                string usr= query[query.size()-1].second;
+                auto client=activeClients.find(usr);
+
+                if(client!=activeClients.end()){
+
+                    auto res=client->second->query_Table(query,1);
+                    response= vvss_to_string2(res);
+
+                }
+                else {
+                    response="INVALID REQUEST";
+                }
+            }
+
+            VVPSS mesT;
+            string resS;
+            mesT.push_back({query[query.size()-2]});
+            mesT.push_back({{"RES",response}});
+            resS=vvss_to_string(mesT);
+            MRE.lock();
+            mesRE.push_back(resS);
+            MRE.unlock();
+        }
+
     }
 }
 
-void Query_Parser::fetch(vector<string> query){             // dbname,collection,table,type,operation,condition
-//    string id=query[0];
-//    auto db=DB.find(id);
-//    if(db==DB.end())
-//        database_Open* db_ptr=open_DB(query[0],query[1],query[2],query[3]);
-
-    //string data=get_data(query[3],query[4],db);
-    //TODO: implement get_data
-    //return data;
-}
-
- void Query_Parser::discard_unused(){
-    //TODO discard unused
-}
- bool Query_Parser::check_Ifopen(){
-    //Todo Check_Ifopen
-}
-
- database_Open* Query_Parser::open_DB(const string &dbname,const string & collection,const string & table,const string & type){
-//
-//    while(!masterM.try_lock()){
-//        if(masterR.find(dbname)){
-//
-//            masterM.unlock();
-//            string loc="./"+dbname;
-//            chdir(loc.c_str());
-//            Database db;
-//            time_t* creation_time;
-//            time(creation_time);
-//            //DB.insert(dbname.c_str(),{},time_t);
-//            //db.goto_Handler(type,collection);
-//
-//
-//            //TODO:restructure database processing methods
-//
-//        }
-//    }
-    return nullptr;
-}
- bool Query_Parser::get_data(string,string,database_Open*){
-    //TODO get data
-}
-
-void Query_Parser::RI_handler(asio::error_code){
-    if(DEBUG_QUE)
-        cout<<"[query parser] Request Emitter connected\n";
+void Query_Parser::RE_Handler(){
+    while(running){
+        char temp[MAX_PAC_SIZE];
+        if(!mesRE.empty()){
+            MRE.lock();
+            strcpy(temp,mesRE.front().c_str());
+            mesRE.pop_front();
+            MRE.unlock();
+            RE.send(asio::buffer(temp,MAX_PAC_SIZE));
+        }
+    }
 }
